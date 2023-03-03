@@ -1,0 +1,1059 @@
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2023-02-18 16:15:44.301
+
+-- tables
+-- Table: administrativo
+CREATE TABLE administrativo (
+    especialidad varchar(50)  NOT NULL,
+    usuario_id_usuario int  NOT NULL,
+    CONSTRAINT administrativo_pk PRIMARY KEY  (usuario_id_usuario)
+);
+
+-- Table: alumno
+CREATE TABLE alumno (
+    id_apoderado int  NOT NULL,
+    id_genero int  NOT NULL,
+    id_nivel int  NOT NULL,
+    id_usu_alumno int  NOT NULL,
+    CONSTRAINT alumno_pk PRIMARY KEY  (id_usu_alumno)
+);
+
+-- Table: anio_lectivo
+CREATE TABLE anio_lectivo (
+    id_anio_Electivo int  NOT NULL,
+    fecha_inicio date  NOT NULL,
+    fecha_fin date  NOT NULL,
+    CONSTRAINT anio_lectivo_pk PRIMARY KEY  (id_anio_Electivo)
+);
+
+-- Table: apoderado
+CREATE TABLE apoderado (
+    id_apoderado int  NOT NULL,
+    nombres varchar(25)  NOT NULL,
+    apellidos varchar(50)  NOT NULL,
+    id_tipo_apoderado int  NOT NULL,
+    CONSTRAINT apoderado_pk PRIMARY KEY  (id_apoderado)
+);
+
+-- Table: boletas_pago
+CREATE TABLE boletas_pago (
+    id_boleta_pago int  NOT NULL,
+    precio int  NOT NULL,
+    fecha_ven datetime  NOT NULL,
+    impuesto int  NOT NULL,
+    estado int  NOT NULL,
+    alumno_id_usu_alumno int  NOT NULL,
+    CONSTRAINT boletas_pago_pk PRIMARY KEY  (id_boleta_pago)
+);
+
+-- Table: curso
+CREATE TABLE curso (
+    id_curso int  NOT NULL,
+    nombre_curso varchar(30)  NOT NULL,
+    id_Profesor int  NOT NULL,
+    id_DetalleCurso int  NOT NULL,
+    id_horario int  NOT NULL,
+    CONSTRAINT curso_pk PRIMARY KEY  (id_curso)
+);
+
+-- Table: detalle_curso
+CREATE TABLE detalle_curso (
+    id_DetalleCurso int  NOT NULL,
+    hora_inicio time  NOT NULL,
+    hora_fin time  NOT NULL,
+    CONSTRAINT detalle_curso_pk PRIMARY KEY  (id_DetalleCurso)
+);
+
+-- Table: genero
+CREATE TABLE genero (
+    id_genero int  NOT NULL,
+    descripcion varchar(10)  NOT NULL,
+    CONSTRAINT genero_pk PRIMARY KEY  (id_genero)
+);
+
+-- Table: horario
+CREATE TABLE horario (
+    id_horario int  NOT NULL,
+    id_salon int  NOT NULL,
+    hora_inicio time  NOT NULL,
+    hora_fin time  NOT NULL,
+    CONSTRAINT horario_pk PRIMARY KEY  (id_horario)
+);
+
+-- Table: matricula
+CREATE TABLE matricula (
+    id_matricula int  NOT NULL,
+    id_anio_Electivo int  NOT NULL,
+    usurio_id_usuario int  NOT NULL,
+    horario_id_horario int  NOT NULL,
+    turno varchar(15)  NOT NULL,
+    CONSTRAINT matricula_pk PRIMARY KEY  (id_matricula)
+);
+
+-- Table: metodos_pago
+CREATE TABLE metodos_pago (
+    id int  NOT NULL,
+    descripcion varchar(20)  NOT NULL,
+    id_boleta_pago int  NOT NULL,
+    CONSTRAINT metodos_pago_pk PRIMARY KEY  (id)
+);
+
+-- Table: nivel
+CREATE TABLE nivel (
+    id_nivel int  NOT NULL,
+    grado varchar(20)  NOT NULL,
+    nivel varchar(20)  NOT NULL,
+    CONSTRAINT nivel_pk PRIMARY KEY  (id_nivel)
+);
+
+-- Table: pension
+CREATE TABLE pension (
+    id_pension int  NOT NULL,
+    numero_pensiones int  NOT NULL,
+    estado varchar(20)  NOT NULL,
+    precio money  NOT NULL,
+    id_matricula int  NOT NULL,
+    tipo_pension_id_tipo_pension int  NOT NULL,
+    CONSTRAINT pension_pk PRIMARY KEY  (id_pension)
+);
+
+-- Table: profesor
+CREATE TABLE profesor (
+    id_Profesor int  NOT NULL,
+    nombreProfesor varchar(45)  NOT NULL,
+    apellidoProfesor varchar(50)  NOT NULL,
+    especialidad varchar(50)  NOT NULL,
+    CONSTRAINT profesor_pk PRIMARY KEY  (id_Profesor)
+);
+
+-- Table: salon
+CREATE TABLE salon (
+    id_salon int  NOT NULL,
+    cod_aula char(5)  NOT NULL,
+    cantidad_alumnos int  NOT NULL,
+    CONSTRAINT salon_pk PRIMARY KEY  (id_salon)
+);
+
+-- Table: tipo_apoderado
+CREATE TABLE tipo_apoderado (
+    id_tipo_apoderado int  NOT NULL,
+    descripcion varchar(20)  NOT NULL,
+    CONSTRAINT tipo_apoderado_pk PRIMARY KEY  (id_tipo_apoderado)
+);
+
+-- Table: tipo_pension
+CREATE TABLE tipo_pension (
+    id_tipo_pension int  NOT NULL,
+    descripcion varchar(30)  NOT NULL,
+    descuento int  NOT NULL,
+    estado varchar(20)  NOT NULL,
+    CONSTRAINT tipo_pension_pk PRIMARY KEY  (id_tipo_pension)
+);
+
+-- Table: usuario
+CREATE TABLE usuario (
+    id_usuario int  NOT NULL,
+    nombre varchar(20)  NOT NULL,
+    apellido varchar(20)  NOT NULL,
+    dni char(8)  NOT NULL,
+    CONSTRAINT usuario_pk PRIMARY KEY  (id_usuario)
+);
+
+-- foreign keys
+-- Reference: administrativo_usuario (table: administrativo)
+ALTER TABLE administrativo ADD CONSTRAINT administrativo_usuario
+    FOREIGN KEY (usuario_id_usuario)
+    REFERENCES usuario (id_usuario);
+
+-- Reference: alumno_apoderado (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_apoderado
+    FOREIGN KEY (id_apoderado)
+    REFERENCES apoderado (id_apoderado);
+
+-- Reference: alumno_genero (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_genero
+    FOREIGN KEY (id_genero)
+    REFERENCES genero (id_genero);
+
+-- Reference: alumno_nivel (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_nivel
+    FOREIGN KEY (id_nivel)
+    REFERENCES nivel (id_nivel);
+
+-- Reference: alumno_usurio (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_usurio
+    FOREIGN KEY (id_usu_alumno)
+    REFERENCES usuario (id_usuario);
+
+-- Reference: apoderado_rol (table: apoderado)
+ALTER TABLE apoderado ADD CONSTRAINT apoderado_rol
+    FOREIGN KEY (id_tipo_apoderado)
+    REFERENCES tipo_apoderado (id_tipo_apoderado);
+
+-- Reference: boletas_pago_alumno (table: boletas_pago)
+ALTER TABLE boletas_pago ADD CONSTRAINT boletas_pago_alumno
+    FOREIGN KEY (alumno_id_usu_alumno)
+    REFERENCES alumno (id_usu_alumno);
+
+-- Reference: curso_detalle_curso (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_detalle_curso
+    FOREIGN KEY (id_DetalleCurso)
+    REFERENCES detalle_curso (id_DetalleCurso);
+
+-- Reference: curso_horario (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_horario
+    FOREIGN KEY (id_horario)
+    REFERENCES horario (id_horario);
+
+-- Reference: curso_profesor (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_profesor
+    FOREIGN KEY (id_Profesor)
+    REFERENCES profesor (id_Profesor);
+
+-- Reference: horario_salon (table: horario)
+ALTER TABLE horario ADD CONSTRAINT horario_salon
+    FOREIGN KEY (id_salon)
+    REFERENCES salon (id_salon);
+
+-- Reference: matricula_anio_lectivo (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_anio_lectivo
+    FOREIGN KEY (id_anio_Electivo)
+    REFERENCES anio_lectivo (id_anio_Electivo);
+
+-- Reference: matricula_horario (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_horario
+    FOREIGN KEY (horario_id_horario)
+    REFERENCES horario (id_horario);
+
+-- Reference: matricula_usurio (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_usurio
+    FOREIGN KEY (usurio_id_usuario)
+    REFERENCES usuario (id_usuario);
+
+-- Reference: metodos_pago_boletas_pago (table: metodos_pago)
+ALTER TABLE metodos_pago ADD CONSTRAINT metodos_pago_boletas_pago
+    FOREIGN KEY (id_boleta_pago)
+    REFERENCES boletas_pago (id_boleta_pago);
+
+-- Reference: pension_matricula (table: pension)
+ALTER TABLE pension ADD CONSTRAINT pension_matricula
+    FOREIGN KEY (id_matricula)
+    REFERENCES matricula (id_matricula);
+
+-- Reference: pension_tipo_pension (table: pension)
+ALTER TABLE pension ADD CONSTRAINT pension_tipo_pension
+    FOREIGN KEY (tipo_pension_id_tipo_pension)
+    REFERENCES tipo_pension (id_tipo_pension);
+
+-- End of file.
+
+--- INSERCION DE DATOS 
+INSERT INTO usuario(id_usuario,nombre,apellido,dni) 
+VALUES (1,'Adrian','Alvarez Ramos','123456') ,
+		(2,'Beatriz','Bermudez Sandoval','234567'),
+		(3,'Carlos','Cardenaz Acuña','345678'),
+		(4,'Daniela','Davila Corpus','456789'),
+		(5,'Eliana','Zapata Cueva','565655'),
+		(6,'Julian','Guerrero Chavez','787878'),
+		(7,'Marlon','Lescano Ramirez','909090'),
+		(8,'Noelia','Montesinos prieto','454545'),
+		(9,'Cesar','Chavez Flores','565666')
+		
+INSERT INTO nivel(id_nivel,grado,nivel)
+VALUES (1,'1°','Primaria'),
+		(2,'2°','Secundaria'),
+		(3,'3°','Primaria')
+INSERT INTO genero(id_genero,descripcion)
+VALUES (1,'MASCULINO'),
+		(2,'FEMENINO')
+INSERT INTO tipo_apoderado(id_tipo_apoderado,descripcion)
+VALUES (1,'Padre'),
+		(2,'Madre'),
+		(3,'Hermano')
+INSERT INTO apoderado(id_apoderado,nombres,apellidos,id_tipo_apoderado)
+VALUES (1,'Andres','Alvarez Ramirez',1),
+		(2,'Barbara','Sandoval Martinez',2),
+		(3,'Cristian','Cardenaz Acuña',3),
+		(4,'Andrea','Flores Ramirez',1),
+		(5,'Elena','Zapata Cueva',2),
+		(6,'Julio','Guerrero Chavez',3),
+		(7,'Mario','Lescano Ramirez',1),
+		(8,'Noemi','Montesinos prieto',2),
+		(9,'Carlos','Chavez Flores',3)
+INSERT INTO alumno(id_apoderado,id_genero,id_nivel,id_usu_alumno)
+VALUES (1,1,1,1),
+	   (2,2,2,2),
+		(3,1,3,3),
+		(1,1,1,4),
+	    (2,2,2,5),
+		(3,1,3,6),
+		(1,1,1,7),
+	    (2,2,2,8),
+		(3,1,3,9)
+		
+
+INSERT INTO administrativo(usuario_id_usuario,especialidad)
+VALUES(4,'Administración de Empresas')
+
+INSERT INTO  boletas_pago(id_boleta_pago,precio,fecha_ven,impuesto,estado,alumno_id_usu_alumno)
+VALUES  (1,100,'2023-04-10',18,1,1),
+(2,100,'2023-04-10',18,1,2),
+(3,200,'2023-04-10',36,0,3),
+(4,200,'2023-04-10',36,1,4),
+(5,100,'2023-04-10',18,0,5),
+(6,100,'2023-04-10',18,1,6),
+(7,300,'2023-04-10',54,1,7),
+(8,100,'2023-04-10',18,0,8),
+(9,200,'2023-04-10',36,1,9)
+
+insert into metodos_pago(id,descripcion,id_boleta_pago)
+values (1,'efectivo',1),
+(2,'Targetas de credito',2),
+(3,'Targeta de debito',3),
+(4,'efectivo',4),
+(5,'efectivo',5)
+INSERT INTO anio_lectivo(id_anio_Electivo,fecha_inicio,fecha_fin)
+VALUES(11 ,'2023-04-10' , '2023-12-10')
+INSERT INTO salon(id_salon,cod_aula,cantidad_alumnos)
+VALUES(21,'A21',31),
+(22,'A22',32),
+(23,'A23',33),
+(24,'A24',34),
+(25,'A25',35)
+INSERT INTO detalle_curso(id_DetalleCurso,hora_inicio,hora_fin)
+VALUES (31,'8:00AM','9:00AM'),
+(32,'9:00AM','11:00AM'),
+(33,'1:00PM','2:00PM'),
+(34,'2:00AM','3:00PM'),
+(35,'3:00AM','4:00PM')
+INSERT INTO profesor(id_Profesor,nombreProfesor,apellidoProfesor,especialidad)
+VALUES (41,'Francisco','Peralta','Historiador'),
+ (42,'Victor','Saavedra','Ingles'),
+ (43,'Luis','Garcia',' Matemática y Física'),
+ (44,'Jesus','Vasquez',' Química-Matemática'),
+ (45,'Julio','Flores','Biología')
+
+ INSERT INTO horario(id_horario,id_salon,hora_inicio,hora_fin)
+ values (61,21,'8:00','13:00'),
+        (62,22,'14:00','17:00'),
+        (63,23,'18:00','22:00')
+
+ INSERT INTO curso(id_curso,nombre_curso,id_Profesor,id_DetalleCurso,id_horario)
+ VALUES (51,'Historia',41,31,61),
+ (52,'Inglés  '  ,42,32,61),
+ (53,'Matemática',43,33,61),
+ (54,'Quimica'  ,44,34,62),
+ (55,'Biologia' ,45,35,62),
+ (56,'Historia',41,31,63),
+ (57,'Inglés  '  ,42,32,61),
+ (58,'Matemática',43,33,63),
+ (59,'Quimica'  ,44,34,62)
+
+ INSERT INTO matricula(id_matricula,id_anio_Electivo,usurio_id_usuario,horario_id_horario,turno)
+VALUES(71,11,1,61,'Maniana'),
+(72,11,2,61,'Maniana'),
+(73,11,3,62,'tarde'),
+(74,11,4,63,'noche'),
+(75,11,5,61,'Maniana'),
+(76,11,6,61,'Maniana'),
+(77,11,7,62,'tarde'),
+(78,11,8,61,'Maniana'),
+(79,11,9,63,'noche')
+
+insert into tipo_pension(id_tipo_pension,descripcion,descuento,estado)
+values (1,'Matricula',50,'vigente'),
+(2,'Matricula',30,'vencido')
+
+
+CREATE FUNCTION w(@CODEST int) RETURNS INT
+AS
+BEGIN
+DECLARE @PROMEDIO INT
+SELECT @PROMEDIO = (descuento )/ 2 FROM tipo_pension WHERE id_tipo_pension = @CODEST
+RETURN @PROMEDIO
+END
+
+
+SELECT id_tipo_pension as usuario,  dbo.w(2) as promedio FROM tipo_pension WHERE id_tipo_pension =2
+SELECT id_tipo_pension as usuario,  dbo.w(1) as promedio FROM tipo_pension WHERE id_tipo_pension =1
+select *from tipo_pension;
+
+
+
+
+insert into pension(id_pension,numero_pensiones,estado,precio,id_matricula,tipo_pension_id_tipo_pension)
+values(1,1,'vigente',300,71,1),
+(2,1,'vigente',300,71,1),
+(3,1,'vencido',300,71,2)
+
+
+
+select *from anio_lectivo;
+select *from salon;
+select *from detalle_curso;
+select *from profesor;
+select *from horario;
+select *from curso;
+select *from tipo_pension;
+select *from anio_lectivo;
+select * from usuario;
+select * from alumno;
+select * from pension;
+select * from matricula;
+select *from metodos_pago;
+select *from boletas_pago;
+select *from apoderado;
+select *from tipo_apoderado;
+select *from genero;
+select *from usuario;
+select *from nivel;
+select *from alumno;
+select *from administrativo;
+--cual es el promedio de que paga un estudiante en el anio lectivo
+select avg(precio) as Promedio from boletas_pago
+--Funcion para hallar el precio total + igv del alumno:
+CREATE FUNCTION Precio_Con_Igv(@Id_Alumno INT) RETURNS INT
+AS
+BEGIN
+DECLARE @PrecioIgv INT
+SELECT @PrecioIgv = (precio + precio*0.18) FROM boletas_pago WHERE alumno_id_usu_alumno = @Id_Alumno
+RETURN @PrecioIgv
+END
+
+SELECT nombre, apellido, dni , dbo.Precio_Con_Igv(1) as Precio_Con_Igv FROM usuario WHERE id_usuario =1
+SELECT * FROm usuario
+
+--Funcion para hallar el precio sub total del alumno:
+
+CREATE FUNCTION Precio_Subtotal(@Id_Alumno INT) RETURNS INT
+AS
+BEGIN
+DECLARE @Precio_Subtotal INT
+SELECT @Precio_Subtotal = (precio + impuesto ) / 1.18 FROM boletas_pago WHERE alumno_id_usu_alumno = @Id_Alumno
+RETURN @Precio_Subtotal
+END
+
+SELECT nombre, apellido, dni , dbo.Precio_Subtotal(9) as PrecioSubtotal FROM usuario WHERE id_usuario =9
+SELECT * FROm usuario
+
+---Funcion para mostrar fecha del anio lectivo en letras
+
+ALTER  FUNCTION fecha_Matricula_Alumno(@fechaMatricula as date) 
+RETURNS varchar(30)
+AS
+BEGIN
+DECLARE @Resultado varchar(30)
+SELECT @Resultado  = concat(day (@fechaMatricula), ' de ', datename(month,@fechaMatricula),' del ', year(@fechaMatricula))
+RETURN @Resultado 
+END
+
+select id_anio_Electivo, fecha_inicio from anio_lectivo
+select *from anio_lectivo
+
+select id_anio_Electivo,fecha_inicio,fecha_fin,  dbo.fecha_Matricula_Alumno(fecha_inicio) as[Fecha en Letras] from anio_lectivo
+
+
+
+
+
+
+
+
+
+
+
+--Listar top 5 de los usuarios
+select top 5* from usuario
+
+--Muestrar los 3 turnos con sus respectivos alumnos Matriculados
+select * from matricula
+where horario_id_horario = 61;
+select * from matricula
+where horario_id_horario = 62;
+select * from matricula
+where horario_id_horario = 63;
+
+--cuantos cuantos alumnos matriculados tengo por cada turno
+select horario_id_horario, count(1) as cantidad_de_alumnos
+from matricula group by horario_id_horario; 
+
+--determinar la cantidad de alumnos que son de la turno =  manina  y que se valide si el turno existe
+select count (*)as Cantidad  
+from matricula a inner join  pension b 
+on a.id_matricula = b.id_pension;
+
+
+
+
+--cuantos alumnos tengo por cada turno, pero tenga mas o igual de 2 alumnos agrupadas
+select horario_id_horario, count(1) as cantidad_de_alumnos
+from matricula group by horario_id_horario having count(1)>=2;
+
+--Queremos sacar el precio unitario  promedio de unas determinadas boletas por su precio unitario mayor a = 100
+select id_boleta_pago, AVG(precio)as Precio_unitario 
+from boletas_pago
+group by id_boleta_pago
+having AVG(precio)>=100;
+
+--queremos los precios maximos que  pagan los  (Alumnos) mayor a = 200 SOLES
+select alumno_id_usu_alumno, max (precio) as max_valor
+from boletas_pago
+group by alumno_id_usu_alumno 
+having max(precio)>=200
+order by 2 asc;
+
+
+--uniendo tabla con detalles
+select a.ProductID, a.ProductName, a.SupplierID, a.CategoryID,b.CategoryName,a.QuantityPerUnit,a.UnitPrice
+from Products a inner join Categories b	on a.CategoryID = b.CategoryID;
+
+
+select a.id_usuario, a.nombre, a.apellido, a.dni,b.id_matricula,a.QuantityPerUnit,a.UnitPrice
+from usuario a inner join id_usuario b	on a.CategoryID = b.CategoryID;
+
+
+
+
+
+
+
+
+--Queremos sacar el precio unitario  promedio de unas determinadas categorias por su precio unitario entre 30 y 50
+select CategoryID, AVG(UnitPrice)as AVG_PRICE 
+from Products
+group by CategoryID
+having AVG(UnitPrice)>=30 and AVG(UnitPrice)<=50; -- otra forma de hacer esta linea es -> having AVG(UnitPrice) between 30 and 50;
+
+
+
+
+
+
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2023-02-18 16:15:44.301
+
+-- tables
+-- Table: administrativo
+CREATE TABLE administrativo (
+    especialidad varchar(50)  NOT NULL,
+    usuario_id_usuario int  NOT NULL,
+    CONSTRAINT administrativo_pk PRIMARY KEY  (usuario_id_usuario)
+);
+
+-- Table: alumno
+CREATE TABLE alumno (
+    id_apoderado int  NOT NULL,
+    id_genero int  NOT NULL,
+    id_nivel int  NOT NULL,
+    id_usu_alumno int  NOT NULL,
+    CONSTRAINT alumno_pk PRIMARY KEY  (id_usu_alumno)
+);
+
+-- Table: anio_lectivo
+CREATE TABLE anio_lectivo (
+    id_anio_Electivo int  NOT NULL,
+    fecha_inicio date  NOT NULL,
+    fecha_fin date  NOT NULL,
+    CONSTRAINT anio_lectivo_pk PRIMARY KEY  (id_anio_Electivo)
+);
+
+-- Table: apoderado
+CREATE TABLE apoderado (
+    id_apoderado int  NOT NULL,
+    nombres varchar(25)  NOT NULL,
+    apellidos varchar(50)  NOT NULL,
+    id_tipo_apoderado int  NOT NULL,
+    CONSTRAINT apoderado_pk PRIMARY KEY  (id_apoderado)
+);
+
+-- Table: boletas_pago
+CREATE TABLE boletas_pago (
+    id_boleta_pago int  NOT NULL,
+    precio int  NOT NULL,
+    fecha_ven datetime  NOT NULL,
+    impuesto int  NOT NULL,
+    estado int  NOT NULL,
+    alumno_id_usu_alumno int  NOT NULL,
+    CONSTRAINT boletas_pago_pk PRIMARY KEY  (id_boleta_pago)
+);
+
+-- Table: curso
+CREATE TABLE curso (
+    id_curso int  NOT NULL,
+    nombre_curso varchar(30)  NOT NULL,
+    id_Profesor int  NOT NULL,
+    id_DetalleCurso int  NOT NULL,
+    id_horario int  NOT NULL,
+    CONSTRAINT curso_pk PRIMARY KEY  (id_curso)
+);
+
+-- Table: detalle_curso
+CREATE TABLE detalle_curso (
+    id_DetalleCurso int  NOT NULL,
+    hora_inicio time  NOT NULL,
+    hora_fin time  NOT NULL,
+    CONSTRAINT detalle_curso_pk PRIMARY KEY  (id_DetalleCurso)
+);
+
+-- Table: genero
+CREATE TABLE genero (
+    id_genero int  NOT NULL,
+    descripcion varchar(10)  NOT NULL,
+    CONSTRAINT genero_pk PRIMARY KEY  (id_genero)
+);
+
+-- Table: horario
+CREATE TABLE horario (
+    id_horario int  NOT NULL,
+    id_salon int  NOT NULL,
+    hora_inicio time  NOT NULL,
+    hora_fin time  NOT NULL,
+    CONSTRAINT horario_pk PRIMARY KEY  (id_horario)
+);
+
+-- Table: matricula
+CREATE TABLE matricula (
+    id_matricula int  NOT NULL,
+    id_anio_Electivo int  NOT NULL,
+    usurio_id_usuario int  NOT NULL,
+    horario_id_horario int  NOT NULL,
+    turno varchar(15)  NOT NULL,
+    CONSTRAINT matricula_pk PRIMARY KEY  (id_matricula)
+);
+
+-- Table: metodos_pago
+CREATE TABLE metodos_pago (
+    id int  NOT NULL,
+    descripcion varchar(20)  NOT NULL,
+    id_boleta_pago int  NOT NULL,
+    CONSTRAINT metodos_pago_pk PRIMARY KEY  (id)
+);
+
+-- Table: nivel
+CREATE TABLE nivel (
+    id_nivel int  NOT NULL,
+    grado varchar(20)  NOT NULL,
+    nivel varchar(20)  NOT NULL,
+    CONSTRAINT nivel_pk PRIMARY KEY  (id_nivel)
+);
+
+-- Table: pension
+CREATE TABLE pension (
+    id_pension int  NOT NULL,
+    numero_pensiones int  NOT NULL,
+    estado varchar(20)  NOT NULL,
+    precio money  NOT NULL,
+    id_matricula int  NOT NULL,
+    tipo_pension_id_tipo_pension int  NOT NULL,
+    CONSTRAINT pension_pk PRIMARY KEY  (id_pension)
+);
+
+-- Table: profesor
+CREATE TABLE profesor (
+    id_Profesor int  NOT NULL,
+    nombreProfesor varchar(45)  NOT NULL,
+    apellidoProfesor varchar(50)  NOT NULL,
+    especialidad varchar(50)  NOT NULL,
+    CONSTRAINT profesor_pk PRIMARY KEY  (id_Profesor)
+);
+
+-- Table: salon
+CREATE TABLE salon (
+    id_salon int  NOT NULL,
+    cod_aula char(5)  NOT NULL,
+    cantidad_alumnos int  NOT NULL,
+    CONSTRAINT salon_pk PRIMARY KEY  (id_salon)
+);
+
+-- Table: tipo_apoderado
+CREATE TABLE tipo_apoderado (
+    id_tipo_apoderado int  NOT NULL,
+    descripcion varchar(20)  NOT NULL,
+    CONSTRAINT tipo_apoderado_pk PRIMARY KEY  (id_tipo_apoderado)
+);
+
+-- Table: tipo_pension
+CREATE TABLE tipo_pension (
+    id_tipo_pension int  NOT NULL,
+    descripcion varchar(30)  NOT NULL,
+    descuento int  NOT NULL,
+    estado varchar(20)  NOT NULL,
+    CONSTRAINT tipo_pension_pk PRIMARY KEY  (id_tipo_pension)
+);
+
+-- Table: usuario
+CREATE TABLE usuario (
+    id_usuario int  NOT NULL,
+    nombre varchar(20)  NOT NULL,
+    apellido varchar(20)  NOT NULL,
+    dni char(8)  NOT NULL,
+    CONSTRAINT usuario_pk PRIMARY KEY  (id_usuario)
+);
+
+-- foreign keys
+-- Reference: administrativo_usuario (table: administrativo)
+ALTER TABLE administrativo ADD CONSTRAINT administrativo_usuario
+    FOREIGN KEY (usuario_id_usuario)
+    REFERENCES usuario (id_usuario);
+
+-- Reference: alumno_apoderado (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_apoderado
+    FOREIGN KEY (id_apoderado)
+    REFERENCES apoderado (id_apoderado);
+
+-- Reference: alumno_genero (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_genero
+    FOREIGN KEY (id_genero)
+    REFERENCES genero (id_genero);
+
+-- Reference: alumno_nivel (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_nivel
+    FOREIGN KEY (id_nivel)
+    REFERENCES nivel (id_nivel);
+
+-- Reference: alumno_usurio (table: alumno)
+ALTER TABLE alumno ADD CONSTRAINT alumno_usurio
+    FOREIGN KEY (id_usu_alumno)
+    REFERENCES usuario (id_usuario);
+
+-- Reference: apoderado_rol (table: apoderado)
+ALTER TABLE apoderado ADD CONSTRAINT apoderado_rol
+    FOREIGN KEY (id_tipo_apoderado)
+    REFERENCES tipo_apoderado (id_tipo_apoderado);
+
+-- Reference: boletas_pago_alumno (table: boletas_pago)
+ALTER TABLE boletas_pago ADD CONSTRAINT boletas_pago_alumno
+    FOREIGN KEY (alumno_id_usu_alumno)
+    REFERENCES alumno (id_usu_alumno);
+
+-- Reference: curso_detalle_curso (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_detalle_curso
+    FOREIGN KEY (id_DetalleCurso)
+    REFERENCES detalle_curso (id_DetalleCurso);
+
+-- Reference: curso_horario (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_horario
+    FOREIGN KEY (id_horario)
+    REFERENCES horario (id_horario);
+
+-- Reference: curso_profesor (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_profesor
+    FOREIGN KEY (id_Profesor)
+    REFERENCES profesor (id_Profesor);
+
+-- Reference: horario_salon (table: horario)
+ALTER TABLE horario ADD CONSTRAINT horario_salon
+    FOREIGN KEY (id_salon)
+    REFERENCES salon (id_salon);
+
+-- Reference: matricula_anio_lectivo (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_anio_lectivo
+    FOREIGN KEY (id_anio_Electivo)
+    REFERENCES anio_lectivo (id_anio_Electivo);
+
+-- Reference: matricula_horario (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_horario
+    FOREIGN KEY (horario_id_horario)
+    REFERENCES horario (id_horario);
+
+-- Reference: matricula_usurio (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_usurio
+    FOREIGN KEY (usurio_id_usuario)
+    REFERENCES usuario (id_usuario);
+
+-- Reference: metodos_pago_boletas_pago (table: metodos_pago)
+ALTER TABLE metodos_pago ADD CONSTRAINT metodos_pago_boletas_pago
+    FOREIGN KEY (id_boleta_pago)
+    REFERENCES boletas_pago (id_boleta_pago);
+
+-- Reference: pension_matricula (table: pension)
+ALTER TABLE pension ADD CONSTRAINT pension_matricula
+    FOREIGN KEY (id_matricula)
+    REFERENCES matricula (id_matricula);
+
+-- Reference: pension_tipo_pension (table: pension)
+ALTER TABLE pension ADD CONSTRAINT pension_tipo_pension
+    FOREIGN KEY (tipo_pension_id_tipo_pension)
+    REFERENCES tipo_pension (id_tipo_pension);
+
+-- End of file.
+
+--- INSERCION DE DATOS 
+INSERT INTO usuario(id_usuario,nombre,apellido,dni) 
+VALUES (1,'Adrian','Alvarez Ramos','123456') ,
+		(2,'Beatriz','Bermudez Sandoval','234567'),
+		(3,'Carlos','Cardenaz Acuña','345678'),
+		(4,'Daniela','Davila Corpus','456789'),
+		(5,'Eliana','Zapata Cueva','565655'),
+		(6,'Julian','Guerrero Chavez','787878'),
+		(7,'Marlon','Lescano Ramirez','909090'),
+		(8,'Noelia','Montesinos prieto','454545'),
+		(9,'Cesar','Chavez Flores','565666')
+		
+INSERT INTO nivel(id_nivel,grado,nivel)
+VALUES (1,'1°','Primaria'),
+		(2,'2°','Secundaria'),
+		(3,'3°','Primaria')
+INSERT INTO genero(id_genero,descripcion)
+VALUES (1,'MASCULINO'),
+		(2,'FEMENINO')
+INSERT INTO tipo_apoderado(id_tipo_apoderado,descripcion)
+VALUES (1,'Padre'),
+		(2,'Madre'),
+		(3,'Hermano')
+INSERT INTO apoderado(id_apoderado,nombres,apellidos,id_tipo_apoderado)
+VALUES (1,'Andres','Alvarez Ramirez',1),
+		(2,'Barbara','Sandoval Martinez',2),
+		(3,'Cristian','Cardenaz Acuña',3),
+		(4,'Andrea','Flores Ramirez',1),
+		(5,'Elena','Zapata Cueva',2),
+		(6,'Julio','Guerrero Chavez',3),
+		(7,'Mario','Lescano Ramirez',1),
+		(8,'Noemi','Montesinos prieto',2),
+		(9,'Carlos','Chavez Flores',3)
+INSERT INTO alumno(id_apoderado,id_genero,id_nivel,id_usu_alumno)
+VALUES (1,1,1,1),
+	   (2,2,2,2),
+		(3,1,3,3),
+		(1,1,1,4),
+	    (2,2,2,5),
+		(3,1,3,6),
+		(1,1,1,7),
+	    (2,2,2,8),
+		(3,1,3,9)
+		
+
+INSERT INTO administrativo(usuario_id_usuario,especialidad)
+VALUES(4,'Administración de Empresas')
+
+INSERT INTO  boletas_pago(id_boleta_pago,precio,fecha_ven,impuesto,estado,alumno_id_usu_alumno)
+VALUES  (1,100,'2023-04-10',18,1,1),
+(2,100,'2023-04-10',18,1,2),
+(3,200,'2023-04-10',36,0,3),
+(4,200,'2023-04-10',36,1,4),
+(5,100,'2023-04-10',18,0,5),
+(6,100,'2023-04-10',18,1,6),
+(7,300,'2023-04-10',54,1,7),
+(8,100,'2023-04-10',18,0,8),
+(9,200,'2023-04-10',36,1,9)
+
+insert into metodos_pago(id,descripcion,id_boleta_pago)
+values (1,'efectivo',1),
+(2,'Targetas de credito',2),
+(3,'Targeta de debito',3),
+(4,'efectivo',4),
+(5,'efectivo',5)
+INSERT INTO anio_lectivo(id_anio_Electivo,fecha_inicio,fecha_fin)
+VALUES(11 ,'2023-04-10' , '2023-12-10')
+INSERT INTO salon(id_salon,cod_aula,cantidad_alumnos)
+VALUES(21,'A21',31),
+(22,'A22',32),
+(23,'A23',33),
+(24,'A24',34),
+(25,'A25',35)
+INSERT INTO detalle_curso(id_DetalleCurso,hora_inicio,hora_fin)
+VALUES (31,'8:00AM','9:00AM'),
+(32,'9:00AM','11:00AM'),
+(33,'1:00PM','2:00PM'),
+(34,'2:00AM','3:00PM'),
+(35,'3:00AM','4:00PM')
+INSERT INTO profesor(id_Profesor,nombreProfesor,apellidoProfesor,especialidad)
+VALUES (41,'Francisco','Peralta','Historiador'),
+ (42,'Victor','Saavedra','Ingles'),
+ (43,'Luis','Garcia',' Matemática y Física'),
+ (44,'Jesus','Vasquez',' Química-Matemática'),
+ (45,'Julio','Flores','Biología')
+
+ INSERT INTO horario(id_horario,id_salon,hora_inicio,hora_fin)
+ values (61,21,'8:00','13:00'),
+        (62,22,'14:00','17:00'),
+        (63,23,'18:00','22:00')
+
+ INSERT INTO curso(id_curso,nombre_curso,id_Profesor,id_DetalleCurso,id_horario)
+ VALUES (51,'Historia',41,31,61),
+ (52,'Inglés  '  ,42,32,61),
+ (53,'Matemática',43,33,61),
+ (54,'Quimica'  ,44,34,62),
+ (55,'Biologia' ,45,35,62),
+ (56,'Historia',41,31,63),
+ (57,'Inglés  '  ,42,32,61),
+ (58,'Matemática',43,33,63),
+ (59,'Quimica'  ,44,34,62)
+
+ INSERT INTO matricula(id_matricula,id_anio_Electivo,usurio_id_usuario,horario_id_horario,turno)
+VALUES(71,11,1,61,'Maniana'),
+(72,11,2,61,'Maniana'),
+(73,11,3,62,'tarde'),
+(74,11,4,63,'noche'),
+(75,11,5,61,'Maniana'),
+(76,11,6,61,'Maniana'),
+(77,11,7,62,'tarde'),
+(78,11,8,61,'Maniana'),
+(79,11,9,63,'noche')
+
+insert into tipo_pension(id_tipo_pension,descripcion,descuento,estado)
+values (1,'Matricula',50,'vigente'),
+(2,'Matricula',30,'vencido')
+
+
+CREATE FUNCTION w(@CODEST int) RETURNS INT
+AS
+BEGIN
+DECLARE @PROMEDIO INT
+SELECT @PROMEDIO = (descuento )/ 2 FROM tipo_pension WHERE id_tipo_pension = @CODEST
+RETURN @PROMEDIO
+END
+
+
+SELECT id_tipo_pension as usuario,  dbo.w(2) as promedio FROM tipo_pension WHERE id_tipo_pension =2
+SELECT id_tipo_pension as usuario,  dbo.w(1) as promedio FROM tipo_pension WHERE id_tipo_pension =1
+select *from tipo_pension;
+
+
+
+
+insert into pension(id_pension,numero_pensiones,estado,precio,id_matricula,tipo_pension_id_tipo_pension)
+values(1,1,'vigente',300,71,1),
+(2,1,'vigente',300,71,1),
+(3,1,'vencido',300,71,2)
+
+
+
+select *from anio_lectivo;
+select *from salon;
+select *from detalle_curso;
+select *from profesor;
+select *from horario;
+select *from curso;
+select *from tipo_pension;
+select *from anio_lectivo;
+select * from usuario;
+select * from alumno;
+select * from pension;
+select * from matricula;
+select *from metodos_pago;
+select *from boletas_pago;
+select *from apoderado;
+select *from tipo_apoderado;
+select *from genero;
+select *from usuario;
+select *from nivel;
+select *from alumno;
+select *from administrativo;
+--cual es el promedio de que paga un estudiante en el anio lectivo
+select avg(precio) as Promedio from boletas_pago
+--Funcion para hallar el precio total + igv del alumno:
+CREATE FUNCTION Precio_Con_Igv(@Id_Alumno INT) RETURNS INT
+AS
+BEGIN
+DECLARE @PrecioIgv INT
+SELECT @PrecioIgv = (precio + precio*0.18) FROM boletas_pago WHERE alumno_id_usu_alumno = @Id_Alumno
+RETURN @PrecioIgv
+END
+
+SELECT nombre, apellido, dni , dbo.Precio_Con_Igv(1) as Precio_Con_Igv FROM usuario WHERE id_usuario =1
+SELECT * FROm usuario
+
+--Funcion para hallar el precio sub total del alumno:
+
+CREATE FUNCTION Precio_Subtotal(@Id_Alumno INT) RETURNS INT
+AS
+BEGIN
+DECLARE @Precio_Subtotal INT
+SELECT @Precio_Subtotal = (precio + impuesto ) / 1.18 FROM boletas_pago WHERE alumno_id_usu_alumno = @Id_Alumno
+RETURN @Precio_Subtotal
+END
+
+SELECT nombre, apellido, dni , dbo.Precio_Subtotal(9) as PrecioSubtotal FROM usuario WHERE id_usuario =9
+SELECT * FROm usuario
+
+---Funcion para mostrar fecha del anio lectivo en letras
+
+ALTER  FUNCTION fecha_Matricula_Alumno(@fechaMatricula as date) 
+RETURNS varchar(30)
+AS
+BEGIN
+DECLARE @Resultado varchar(30)
+SELECT @Resultado  = concat(day (@fechaMatricula), ' de ', datename(month,@fechaMatricula),' del ', year(@fechaMatricula))
+RETURN @Resultado 
+END
+
+select id_anio_Electivo, fecha_inicio from anio_lectivo
+select *from anio_lectivo
+
+select id_anio_Electivo,fecha_inicio,fecha_fin,  dbo.fecha_Matricula_Alumno(fecha_inicio) as[Fecha en Letras] from anio_lectivo
+
+
+
+
+
+
+
+
+
+
+
+--Listar top 5 de los usuarios
+select top 5* from usuario
+
+--Muestrar los 3 turnos con sus respectivos alumnos Matriculados
+select * from matricula
+where horario_id_horario = 61;
+select * from matricula
+where horario_id_horario = 62;
+select * from matricula
+where horario_id_horario = 63;
+
+--cuantos cuantos alumnos matriculados tengo por cada turno
+select horario_id_horario, count(1) as cantidad_de_alumnos
+from matricula group by horario_id_horario; 
+
+--determinar la cantidad de alumnos que son de la turno =  manina  y que se valide si el turno existe
+select count (*)as Cantidad  
+from matricula a inner join  pension b 
+on a.id_matricula = b.id_pension;
+
+
+
+
+--cuantos alumnos tengo por cada turno, pero tenga mas o igual de 2 alumnos agrupadas
+select horario_id_horario, count(1) as cantidad_de_alumnos
+from matricula group by horario_id_horario having count(1)>=2;
+
+--Queremos sacar el precio unitario  promedio de unas determinadas boletas por su precio unitario mayor a = 100
+select id_boleta_pago, AVG(precio)as Precio_unitario 
+from boletas_pago
+group by id_boleta_pago
+having AVG(precio)>=100;
+
+--queremos los precios maximos que  pagan los  (Alumnos) mayor a = 200 SOLES
+select alumno_id_usu_alumno, max (precio) as max_valor
+from boletas_pago
+group by alumno_id_usu_alumno 
+having max(precio)>=200
+order by 2 asc;
+
+
+--uniendo tabla con detalles
+select a.ProductID, a.ProductName, a.SupplierID, a.CategoryID,b.CategoryName,a.QuantityPerUnit,a.UnitPrice
+from Products a inner join Categories b	on a.CategoryID = b.CategoryID;
+
+
+select a.id_usuario, a.nombre, a.apellido, a.dni,b.id_matricula,a.QuantityPerUnit,a.UnitPrice
+from usuario a inner join id_usuario b	on a.CategoryID = b.CategoryID;
+
+
+
+
+
+
+
+
+--Queremos sacar el precio unitario  promedio de unas determinadas categorias por su precio unitario entre 30 y 50
+select CategoryID, AVG(UnitPrice)as AVG_PRICE 
+from Products
+group by CategoryID
+having AVG(UnitPrice)>=30 and AVG(UnitPrice)<=50; -- otra forma de hacer esta linea es -> having AVG(UnitPrice) between 30 and 50;
+
+
+

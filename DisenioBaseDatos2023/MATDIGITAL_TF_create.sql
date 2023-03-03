@@ -1,0 +1,754 @@
+CREATE DATABASE MATDIGITAL_TF;
+GO
+USE  MATDIGITAL_TF;
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2023-02-20 22:40:04.505
+
+-- tables
+-- Table: administrativo
+CREATE TABLE administrativo (
+    id int  NOT NULL,
+    dni varchar(8)  NOT NULL,
+    nombres varchar(50)  NOT NULL,
+    apellidos varchar(50)  NOT NULL,
+    email varchar(50)  NOT NULL,
+    celular varchar(50)  NOT NULL,
+    direccion varchar(250)  NOT NULL,
+    distrito_id int  NOT NULL,
+    genero_id int  NOT NULL,
+    CONSTRAINT administrativo_pk PRIMARY KEY  (id)
+);
+
+-- Table: alumno
+CREATE TABLE alumno (
+    id int  NOT NULL,
+    dni varchar(8)  NOT NULL,
+    nombres varchar(50)  NOT NULL,
+    apellidos varchar(50)  NOT NULL,
+    edad int  NOT NULL,
+    genero_id int  NOT NULL,
+    CONSTRAINT alumno_pk PRIMARY KEY  (id)
+);
+
+-- Table: anholectivo
+CREATE TABLE anholectivo (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    fecha_inicio date  NOT NULL,
+    fecha_fin date  NOT NULL,
+    CONSTRAINT anholectivo_pk PRIMARY KEY  (id)
+);
+
+-- Table: apoderado
+CREATE TABLE apoderado (
+    id int  NOT NULL,
+    dni varchar(8)  NOT NULL,
+    nombres varchar(50)  NOT NULL,
+    apellidos varchar(50)  NOT NULL,
+    email varchar(50)  NOT NULL,
+    celular varchar(50)  NOT NULL,
+    direccion varchar(250)  NOT NULL,
+    parentesco_id int  NOT NULL,
+    distrito_id int  NOT NULL,
+    genero_id int  NOT NULL,
+    CONSTRAINT apoderado_pk PRIMARY KEY  (id)
+);
+
+-- Table: apoderado_alumno
+CREATE TABLE apoderado_alumno (
+    alumno_id int  NOT NULL,
+    apoderado_id int  NOT NULL,
+    CONSTRAINT apoderado_alumno_pk PRIMARY KEY  (alumno_id,apoderado_id)
+);
+
+-- Table: curso
+CREATE TABLE curso (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    modalidad_id int  NOT NULL,
+    docente_id int  NOT NULL,
+    horario_id int  NOT NULL,
+    especialidad_id int  NOT NULL,
+    seccion_id int  NOT NULL,
+    CONSTRAINT curso_pk PRIMARY KEY  (id)
+);
+
+-- Table: distrito
+CREATE TABLE distrito (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    CONSTRAINT distrito_pk PRIMARY KEY  (id)
+);
+
+-- Table: docente
+CREATE TABLE docente (
+    id int  NOT NULL,
+    dni varchar(8)  NOT NULL,
+    nombres varchar(50)  NOT NULL,
+    apellidos varchar(50)  NOT NULL,
+    email varchar(50)  NOT NULL,
+    celular varchar(50)  NOT NULL,
+    direccion varchar(250)  NOT NULL,
+    distrito_id int  NOT NULL,
+    genero_id int  NOT NULL,
+    CONSTRAINT docente_pk PRIMARY KEY  (id)
+);
+
+-- Table: especialidad
+CREATE TABLE especialidad (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    CONSTRAINT especialidad_pk PRIMARY KEY  (id)
+);
+
+-- Table: genero
+CREATE TABLE genero (
+    id int  NOT NULL,
+    nombre varchar(10)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    CONSTRAINT genero_pk PRIMARY KEY  (id)
+);
+
+-- Table: grado
+CREATE TABLE grado (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    nivel_id int  NOT NULL,
+    CONSTRAINT grado_pk PRIMARY KEY  (id)
+);
+
+-- Table: horario
+CREATE TABLE horario (
+    id int  NOT NULL,
+    hora_inicio time  NOT NULL,
+    hora_fin time  NOT NULL,
+    salon_id int  NOT NULL,
+    CONSTRAINT horario_pk PRIMARY KEY  (id)
+);
+
+-- Table: matricula
+CREATE TABLE matricula (
+    id int  NOT NULL,
+    fechahora datetime  NOT NULL,
+    anholectivo_id int  NOT NULL,
+    administrativo_id int  NOT NULL,
+    alumno_id int  NOT NULL,
+    estado varchar(10)  NOT NULL,
+    grado_id int  NOT NULL,
+    CONSTRAINT matricula_pk PRIMARY KEY  (id)
+);
+
+-- Table: metodopago
+CREATE TABLE metodopago (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    CONSTRAINT metodopago_pk PRIMARY KEY  (id)
+);
+
+-- Table: modalidad
+CREATE TABLE modalidad (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    CONSTRAINT modalidad_pk PRIMARY KEY  (id)
+);
+
+-- Table: nivel
+CREATE TABLE nivel (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    CONSTRAINT nivel_pk PRIMARY KEY  (id)
+);
+
+-- Table: pago
+CREATE TABLE pago (
+    id int  NOT NULL,
+    fechahora datetime  NOT NULL,
+    monto real  NOT NULL,
+    metodopago_id int  NOT NULL,
+    CONSTRAINT pago_pk PRIMARY KEY  (id)
+);
+
+-- Table: parentesco
+CREATE TABLE parentesco (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    CONSTRAINT parentesco_pk PRIMARY KEY  (id)
+);
+
+-- Table: pension
+CREATE TABLE pension (
+    pago_id int  NOT NULL,
+    matricula_id int  NOT NULL,
+    CONSTRAINT pension_pk PRIMARY KEY  (pago_id,matricula_id)
+);
+
+-- Table: salon
+CREATE TABLE salon (
+    id int  NOT NULL,
+    codigo char(10)  NOT NULL,
+    aforo int  NOT NULL,
+    CONSTRAINT salon_pk PRIMARY KEY  (id)
+);
+
+-- Table: seccion
+CREATE TABLE seccion (
+    id int  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    descripcion varchar(250)  NOT NULL,
+    tutor_id int  NOT NULL,
+    grado_id int  NOT NULL,
+    CONSTRAINT seccion_pk PRIMARY KEY  (id)
+);
+
+-- Table: tutor
+CREATE TABLE tutor (
+    id int  NOT NULL,
+    dni varchar(8)  NOT NULL,
+    nombre varchar(50)  NOT NULL,
+    apellidos varchar(50)  NOT NULL,
+    email varchar(50)  NOT NULL,
+    celular varchar(50)  NOT NULL,
+    direccion varchar(250)  NOT NULL,
+    distrito_id int  NOT NULL,
+    genero_id int  NOT NULL,
+    CONSTRAINT tutor_pk PRIMARY KEY  (id)
+);
+
+-- foreign keys
+-- Reference: administrativo_distrito (table: administrativo)
+ALTER TABLE administrativo ADD CONSTRAINT administrativo_distrito
+    FOREIGN KEY (distrito_id)
+    REFERENCES distrito (id);
+
+-- Reference: administrativo_genero (table: administrativo)
+ALTER TABLE administrativo ADD CONSTRAINT administrativo_genero
+    FOREIGN KEY (genero_id)
+    REFERENCES genero (id);
+
+-- Reference: apoderado_alumno_alumno (table: apoderado_alumno)
+ALTER TABLE apoderado_alumno ADD CONSTRAINT apoderado_alumno_alumno
+    FOREIGN KEY (alumno_id)
+    REFERENCES alumno (id);
+
+-- Reference: apoderado_alumno_apoderado (table: apoderado_alumno)
+ALTER TABLE apoderado_alumno ADD CONSTRAINT apoderado_alumno_apoderado
+    FOREIGN KEY (apoderado_id)
+    REFERENCES apoderado (id);
+
+-- Reference: apoderado_distrito (table: apoderado)
+ALTER TABLE apoderado ADD CONSTRAINT apoderado_distrito
+    FOREIGN KEY (distrito_id)
+    REFERENCES distrito (id);
+
+-- Reference: apoderado_genero (table: apoderado)
+ALTER TABLE apoderado ADD CONSTRAINT apoderado_genero
+    FOREIGN KEY (genero_id)
+    REFERENCES genero (id);
+
+-- Reference: apoderado_parentesco (table: apoderado)
+ALTER TABLE apoderado ADD CONSTRAINT apoderado_parentesco
+    FOREIGN KEY (parentesco_id)
+    REFERENCES parentesco (id);
+
+-- Reference: curso_docente (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_docente
+    FOREIGN KEY (docente_id)
+    REFERENCES docente (id);
+
+-- Reference: curso_especialidad (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_especialidad
+    FOREIGN KEY (especialidad_id)
+    REFERENCES especialidad (id);
+
+-- Reference: curso_horario (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_horario
+    FOREIGN KEY (horario_id)
+    REFERENCES horario (id);
+
+-- Reference: curso_modalidad (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_modalidad
+    FOREIGN KEY (modalidad_id)
+    REFERENCES modalidad (id);
+
+-- Reference: curso_seccion (table: curso)
+ALTER TABLE curso ADD CONSTRAINT curso_seccion
+    FOREIGN KEY (seccion_id)
+    REFERENCES seccion (id);
+
+-- Reference: docente_distrito (table: docente)
+ALTER TABLE docente ADD CONSTRAINT docente_distrito
+    FOREIGN KEY (distrito_id)
+    REFERENCES distrito (id);
+
+-- Reference: docente_genero (table: docente)
+ALTER TABLE docente ADD CONSTRAINT docente_genero
+    FOREIGN KEY (genero_id)
+    REFERENCES genero (id);
+
+-- Reference: grado_nivel (table: grado)
+ALTER TABLE grado ADD CONSTRAINT grado_nivel
+    FOREIGN KEY (nivel_id)
+    REFERENCES nivel (id);
+
+-- Reference: horario_salon (table: horario)
+ALTER TABLE horario ADD CONSTRAINT horario_salon
+    FOREIGN KEY (salon_id)
+    REFERENCES salon (id);
+
+-- Reference: matricula_administrativo (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_administrativo
+    FOREIGN KEY (administrativo_id)
+    REFERENCES administrativo (id);
+
+-- Reference: matricula_alumno (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_alumno
+    FOREIGN KEY (alumno_id)
+    REFERENCES alumno (id);
+
+-- Reference: matricula_anholectivo (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_anholectivo
+    FOREIGN KEY (anholectivo_id)
+    REFERENCES anholectivo (id);
+
+-- Reference: matricula_grado (table: matricula)
+ALTER TABLE matricula ADD CONSTRAINT matricula_grado
+    FOREIGN KEY (grado_id)
+    REFERENCES grado (id);
+
+-- Reference: matricula_pago_matricula (table: pension)
+ALTER TABLE pension ADD CONSTRAINT matricula_pago_matricula
+    FOREIGN KEY (matricula_id)
+    REFERENCES matricula (id);
+
+-- Reference: matricula_pago_pago (table: pension)
+ALTER TABLE pension ADD CONSTRAINT matricula_pago_pago
+    FOREIGN KEY (pago_id)
+    REFERENCES pago (id);
+
+-- Reference: pago_metodo_pago (table: pago)
+ALTER TABLE pago ADD CONSTRAINT pago_metodo_pago
+    FOREIGN KEY (metodopago_id)
+    REFERENCES metodopago (id);
+
+-- Reference: seccion_grado (table: seccion)
+ALTER TABLE seccion ADD CONSTRAINT seccion_grado
+    FOREIGN KEY (grado_id)
+    REFERENCES grado (id);
+
+-- Reference: seccion_tutor (table: seccion)
+ALTER TABLE seccion ADD CONSTRAINT seccion_tutor
+    FOREIGN KEY (tutor_id)
+    REFERENCES tutor (id);
+
+-- Reference: tutor_distrito (table: tutor)
+ALTER TABLE tutor ADD CONSTRAINT tutor_distrito
+    FOREIGN KEY (distrito_id)
+    REFERENCES distrito (id);
+
+-- Reference: tutor_genero (table: tutor)
+ALTER TABLE tutor ADD CONSTRAINT tutor_genero
+    FOREIGN KEY (genero_id)
+    REFERENCES genero (id);
+
+-- End of file.
+
+--- INSERCION DE DATOS 
+
+-- TABLA ALUMNO
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (1,'72752400','Goku','Sanchez Avila',6,1);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (2,'72752401','Doraemon','Messi Dos santos',7,1);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (3,'72752402','Naruto','Dos santos Sandoval',8,1);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (4,'72752403','Pedro','De brownie',9,1);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (5,'72752404','Hinata','Orderique Pizarro',10,2);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (6,'72752405','Sara','Palacios Castro',11,2);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (7,'72752406','Paula','Perez Neves',12,2);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (8,'72752407','Valentino','Lujan Machuca',13,1);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (9,'72752408','Gerardo','Parodi',14,1);
+INSERT INTO alumno(id,dni,nombres,apellidos,edad,genero_id) VALUES (10,'72752409','Antonio','Porcella',15,1);
+
+--TABLA GENERO
+INSERT INTO genero (id, nombre, descripcion) VALUES (1, 'hombre', 'se percibe como hombre');
+INSERT INTO genero (id, nombre, descripcion) VALUES (2, 'mujer', 'se percibe como mujer');
+INSERT INTO genero (id, nombre, descripcion) VALUES (3, 'sin esp', 'no especifica ');
+
+-- TABLA PARENTESCO
+INSERT INTO parentesco (id, nombre, descripcion) VALUES (1, 'padre', 'padre del alumno');
+INSERT INTO parentesco (id, nombre, descripcion) VALUES (2, 'madre', 'madre del alumno');
+INSERT INTO parentesco (id, nombre, descripcion) VALUES (3, 'tio', 'tio del alumno');
+INSERT INTO parentesco (id, nombre, descripcion) VALUES (4, 'tia', 'tia del alumno');
+INSERT INTO parentesco (id, nombre, descripcion) VALUES (5, 'abuelo', 'abuelo del alumno');
+INSERT INTO parentesco (id, nombre, descripcion) VALUES (6, 'abuela', 'abuela del alumno');
+-- TABLA DISTRITO 
+INSERT INTO distrito (id, nombre ) VALUES (1, 'Ancón');
+INSERT INTO distrito (id, nombre ) VALUES (2, 'Ate');
+INSERT INTO distrito (id, nombre ) VALUES (3, 'Barranco');
+INSERT INTO distrito (id, nombre ) VALUES (4, 'Breña');
+INSERT INTO distrito (id, nombre ) VALUES (5, 'Carabayllo');
+INSERT INTO distrito (id, nombre ) VALUES (6, 'Cercado de Lima');
+INSERT INTO distrito (id, nombre ) VALUES (7, 'Chaclacayo');
+INSERT INTO distrito (id, nombre ) VALUES (8, 'Chorrillos');
+INSERT INTO distrito (id, nombre ) VALUES (9, 'Cieneguilla');
+INSERT INTO distrito (id, nombre ) VALUES (10, 'Comas');
+INSERT INTO distrito (id, nombre ) VALUES (11, 'El agustino');
+INSERT INTO distrito (id, nombre ) VALUES (12, 'Independencia');
+INSERT INTO distrito (id, nombre ) VALUES (13, 'Jesús maría');
+INSERT INTO distrito (id, nombre ) VALUES (14, 'La molina');
+INSERT INTO distrito (id, nombre ) VALUES (15, 'La victoria');
+INSERT INTO distrito (id, nombre ) VALUES (16, 'Lince');
+INSERT INTO distrito (id, nombre ) VALUES (17, 'Los olivos');
+INSERT INTO distrito (id, nombre ) VALUES (18, 'Lurigancho');
+INSERT INTO distrito (id, nombre ) VALUES (19, 'Lurín');
+INSERT INTO distrito (id, nombre ) VALUES (20, 'Magdalena del mar');
+INSERT INTO distrito (id, nombre ) VALUES (21, 'Miraflores');
+INSERT INTO distrito (id, nombre ) VALUES (22, 'Pachacámac');
+INSERT INTO distrito (id, nombre ) VALUES (23, 'Pucusana');
+INSERT INTO distrito (id, nombre ) VALUES (24, 'Pueblo libre');
+INSERT INTO distrito (id, nombre ) VALUES (25, 'Puente piedra');
+INSERT INTO distrito (id, nombre ) VALUES (26, 'Punta hermosa');
+INSERT INTO distrito (id, nombre ) VALUES (27, 'Punta negra');
+INSERT INTO distrito (id, nombre ) VALUES (28, 'Rímac');
+INSERT INTO distrito (id, nombre ) VALUES (29, 'San bartolo');
+INSERT INTO distrito (id, nombre ) VALUES (30, 'San borja');
+INSERT INTO distrito (id, nombre ) VALUES (31, 'San isidro');
+INSERT INTO distrito (id, nombre ) VALUES (32, 'San Juan de Lurigancho');
+INSERT INTO distrito (id, nombre ) VALUES (33, 'San Juan de Miraflores');
+INSERT INTO distrito (id, nombre ) VALUES (34, 'San Luis');
+INSERT INTO distrito (id, nombre ) VALUES (35, 'San Martin de Porres');
+INSERT INTO distrito (id, nombre ) VALUES (36, 'San Miguel');
+INSERT INTO distrito (id, nombre ) VALUES (37, 'Santa Anita');
+INSERT INTO distrito (id, nombre ) VALUES (38, 'Santa María del Mar');
+INSERT INTO distrito (id, nombre ) VALUES (39, 'Santa Rosa');
+INSERT INTO distrito (id, nombre ) VALUES (40, 'Santiago de Surco');
+INSERT INTO distrito (id, nombre ) VALUES (41, 'Surquillo');
+INSERT INTO distrito (id, nombre ) VALUES (42, 'Villa el Salvador');
+INSERT INTO distrito (id, nombre ) VALUES (43, 'Villa Maria del Triunfo');
+
+--TABLA APODERADO
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (1,'72752400','Juan Carlos','Sanchez Carrion','Juanca@gmail.com','953229547','calle mexico 666',1,6,1);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (2,'72752401','Leonel','Messi Cucitini','Leonel@gmail.com','994468985','calle javier hearud 784',1,6,1);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (3,'72752402','Ronaldo','Dos santos Aveiro','Ronaldo@gmail.com','953229365','calle los limones 123',1,6,1);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (4,'72752403','Kevin','De brownie','Kevin@gmail.com','953229124','calle los nogales 785',3,16,1);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (5,'72752404','Dina','Orderique Pizarro','Dina@gmail.com','953229753','calle los heraldos negros 444',2,16,2);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (6,'72752405','Fiorella','Palacios Guerrero','Fiorella@gmail.com','953229542','calle los upecinos 122',2,26,2);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (7,'72752406','Sonia','Perez Cuellar','Sonia@gmail.com','953229954','avenida primavera 123',4,4,2);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (8,'72752407','Jesus Andres','Lujan Carrion','Jesus@gmail.com','953229734','avenida holanda 852',1,13,3);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (9,'72752408','Patricio','Parodi','Patricio@gmail.com','953229528','av mariscal 758',1,13,1);
+INSERT INTO apoderado(id,dni,nombres,apellidos,email,celular,direccion,parentesco_id,distrito_id,genero_id) VALUES (10,'72752409','Nicolla','Porcella','Nicolla@gmail.com','953229426','calle las moras 447',3,31,1);
+
+-- TABLA APODERADO-ALUMNO
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(1,1);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(2,2);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(3,3);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(4,4);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(5,5);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(6,6);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(7,7);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(8,8);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(9,9);
+INSERT INTO apoderado_alumno(alumno_id,apoderado_id) VALUES(10,10);
+
+-- TABLA METODOPAGO
+INSERT INTO metodopago (id, nombre, descripcion) VALUES (1, 'contado', 'pagar al contado');
+INSERT INTO metodopago (id, nombre, descripcion) VALUES (2, 'tarjeta debito', 'pagar via tarjeta de debito');
+INSERT INTO metodopago (id, nombre, descripcion) VALUES (3, 'tarjeta credito', 'pagar via tarjeta de credito');
+INSERT INTO metodopago (id, nombre, descripcion) VALUES (4, 'transferencia', 'pagar via transferencia interbancaria');
+
+-- TABLA PAGO
+INSERT INTO pago(id,fechahora,monto,metodopago_id) VALUES(1,'2023-03-10T10:34:09',350.5,1)
+INSERT INTO pago(id,fechahora,monto,metodopago_id) VALUES(2,'2023-02-12T14:38:55',285.75,1)
+INSERT INTO pago(id,fechahora,monto,metodopago_id) VALUES(3,'2023-02-27T21:30:31',250,1)
+INSERT INTO pago(id,fechahora,monto,metodopago_id) VALUES(4,'2023-03-01T07:25:55',320,1)
+INSERT INTO pago(id,fechahora,monto,metodopago_id) VALUES(5,'2023-01-30T09:45:47',270.5,1)
+-- TABLA ANHOELECTIVO
+INSERT INTO anholectivo(id, nombre,fecha_inicio,fecha_fin) VALUES(1,'matricula anho 2023','2023-03-06', '2023-12-25');
+INSERT INTO anholectivo(id, nombre,fecha_inicio,fecha_fin) VALUES(2,'matricula anho 2022','2022-03-06', '2022-12-25');
+INSERT INTO anholectivo(id, nombre,fecha_inicio,fecha_fin) VALUES(3,'matricula anho 2021','2021-03-06', '2021-12-25');
+--TABLA SALON
+INSERT INTO salon (id, codigo, aforo) VALUES (1, 'a33a', '25');
+INSERT INTO salon (id, codigo, aforo) VALUES (2, 'a22a', '30');
+INSERT INTO salon (id, codigo, aforo) VALUES (3, 'a11a', '17');
+INSERT INTO salon (id, codigo, aforo) VALUES (4, 'b33b', '28');
+INSERT INTO salon (id, codigo, aforo) VALUES (5, 'b22b', '17');
+INSERT INTO salon (id, codigo, aforo) VALUES (6, 'b11b', '22');
+INSERT INTO salon (id, codigo, aforo) VALUES (7, 'c33c', '23');
+INSERT INTO salon (id, codigo, aforo) VALUES (8, 'c22c', '25');
+INSERT INTO salon (id, codigo, aforo) VALUES (9, 'c11c', '21');
+--TABLA HORARIO
+INSERT INTO horario (id, hora_inicio, hora_fin,salon_id) VALUES (1, '2023-03-06', '2023-11-10',2);
+INSERT INTO horario (id, hora_inicio, hora_fin,salon_id) VALUES (2, '2023-06-07', '2023-10-09',1);
+INSERT INTO horario (id, hora_inicio, hora_fin,salon_id) VALUES (3, '2023-05-08', '2023-05-23',3);
+INSERT INTO horario (id, hora_inicio, hora_fin,salon_id) VALUES (4, '2023-10-09', '2024-06-07',5);
+INSERT INTO horario (id, hora_inicio, hora_fin,salon_id) VALUES (5, '2023-11-10', '2024-03-06',6);
+INSERT INTO horario (id, hora_inicio, hora_fin,salon_id) VALUES (6, '8:00', '9:00',6);
+--TABLA MODALIDAD
+INSERT INTO modalidad (id, nombre, descripcion) VALUES (1, 'presencial', 'clases presenciales');
+INSERT INTO modalidad (id, nombre, descripcion) VALUES (2, 'virtual', 'clases virtuales');
+
+
+--TABLA ESPECIALIDAD
+INSERT INTO especialidad (id, nombre, descripcion) VALUES (1, 'matematicas', 'especilidad en matematica');
+INSERT INTO especialidad (id, nombre, descripcion) VALUES (2, 'letras', 'especilidad en letras');
+INSERT INTO especialidad (id, nombre, descripcion) VALUES (3, 'ciencias naturales', 'especialidad en ciencias naturales');
+INSERT INTO especialidad (id, nombre, descripcion) VALUES (4, 'educacion fisica', 'escpecialidad en educacion fisica');
+INSERT INTO especialidad (id, nombre, descripcion) VALUES (5, 'religion', 'especialidad en religion');
+-- TABLA DOCENTE
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (1,'92752400','Pep','Guardiola','Pep@gmail.com','994455661','calle moto moto 142',4,1);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (2,'82752401','Alex','Ferguson','Alex@gmail.com','995555471','calle madagascar 128',6,1);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (3,'42752402','Arsene','Wegner','Arsene@gmail.com','999955512','calle perusalem 156',28,1);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (4,'25752403','Carlo','Ancelotti','Carlo@gmail.com','999944321','calle siempre feliz 846',15,1);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (5,'85752404','Jurgen','Klopp','Jurgen@gmail.com','999911542','calle base de datos 175',15,1);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (6,'29752405','Serena','Williams','Thomas@gmail.com','999977321','calle anime 475',26,2);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (7,'51752406','Maria','Sharapova','Maria@gmail.com','999911236','avenida los humildes 147',24,2);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (8,'19752407','Jose','Mourinho','Jose@gmail.com','999977951','avenida costa 147',13,1);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (9,'32752408','Zinedine','Zidane','Zinedine@gmail.com','999944369','av trujillo 125',13,1);
+INSERT INTO docente(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (10,'17752400','Erik','Ten Hag','Erick@gmail.com','999933471','calle los peruanos 741',31,1);
+-- TABLA TUTOR
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (1,'72759999','Roshi','Diaz','Roshi@gmail.com','888844441','calle los robles 321',4,1);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (2,'72758888','Karim','Mateo','Karim@gmail.com','444488882','calle los arboles 476',4,1);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (3,'72757777','Kakashi','Torres','Kakashi@gmail.com','333377771','calle los jeranios 762',28,1);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (4,'72756666','Miyagi','Lujan','Miyagi@gmail.com','777733331','calle los nogales 126',4,1);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (5,'72755555','Yoda','Torres','Yoda@gmail.com','333377774','calle los claveles 752',13,1);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (6,'72754444','Jirafales','Olivares','Jirafales@gmail.com','222244446','calle las torres 217',24,1);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (7,'72753333','Homero','Oliva','Homero@gmail.com','444422227','avenida javier prado 3220',16,1);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (8,'72752222','Luciana','Cuba','Luciana@gmail.com','999922229','avenida arequipa 2550',16,2);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (9,'72751111','Gabriela','Montensinos','Gabriela@gmail.com','222299991','av brasil 2550',4,2);
+INSERT INTO tutor(id,dni,nombre,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (10,'72755454','Alonso','Olcese','Alonso@gmail.com','995522479','calle los eucaliptos 147',6,1);
+
+-- TABLA NIVEL
+INSERT INTO nivel (id, nombre , descripcion) VALUES (1, 'primaria', 'nivel primaria');
+INSERT INTO nivel (id, nombre , descripcion) VALUES (2, 'secundaria', 'nivel secundaria');
+
+-- TABLA GRADO 
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (1, 'primero', 'primer nivel del colegio',1);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (2, 'segundo', 'segundo nivel del colegio',1);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (3, 'tercero', 'tercer nivel del colegio',1);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (4, 'cuarto', 'cuarto nivel del colegio',1);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (5, 'quinto', 'quinto nivel del colegio',1);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (6, 'sexto', 'sexto nivel del colegio',1);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (7, 'primero', 'primer nivel del colegio',2);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (8, 'segundo', 'segundo nivel del colegio',2);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (9, 'tercero', 'tercer nivel del colegio',2);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (10, 'cuarto', 'cuarto nivel del colegio',2);
+INSERT INTO grado (id, nombre , descripcion,nivel_id) VALUES (11, 'quinto', 'quinto nivel del colegio',2);
+
+-- TABLA SECCION
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (1, 'a', 'seccion a',1,1);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (2, 'a', 'seccion a',2,2);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (3, 'a', 'seccion a',3,3);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (4, 'a', 'seccion a',4,4);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (5, 'a', 'seccion a',5,5);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (6, 'b', 'seccion b',6,6);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (7, 'b', 'seccion b',7,7);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (8, 'b', 'seccion b',8,8);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (9, 'b', 'seccion b',9,9);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (10, 'b', 'seccion b',10,10);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (11, 'c', 'seccion c',11,1);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (12, 'c', 'seccion c',5,2);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (13, 'c', 'seccion c',6,3);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (14, 'c', 'seccion c',7,4);
+INSERT INTO seccion (id, nombre, descripcion,grado_id,tutor_id) VALUES (15, 'c', 'seccion c',8,5);
+-- TABLA CURSO
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (1, 'algebra', 'curso de algebra',1,5,2,1,10);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (2, 'educacion fisica', 'curso de educacion fisica',1,10,4,4,13);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (3, 'religion', 'curso de religion',2,8,5,5,12);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (4, 'biologia', 'curso de biologia',2,7,1,3,11);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (5, 'aritmetica', 'curso de aritmetica',2,3,2,1,4);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (6, 'lenguaje', 'curso de lenguaje',1,4,3,2,5);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (7, 'literatura', 'curso de literatura',1,9,3,2,7);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (8, 'geometria', 'curso de geometria',1,2,2,1,8);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (9, 'fisica', 'curso de fisica',1,6,5,1,11);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (10, 'trigonometria', 'curso de trigonometria',1,9,2,1,9);
+INSERT INTO curso (id, nombre, descripcion,modalidad_id,docente_id,horario_id,especialidad_id,seccion_id) VALUES (11, 'trigonometria', 'curso de trigonometria',1,9,6,1,9);
+
+
+-- TABLA ADMINISTRATIVO
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (1,'72752400','Goku','Sanchez Avila','Goku@gmail.com','994468524','calle mexico 666',6,1);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (2,'72752401','Doraemon','Messi Dos santos','Doraemon@gmail.com','938468985','calle javier hearud 784',6,1);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (3,'72752402','Naruto','Dos santos Sandoval','Naruto@gmail.com','997766328','calle los limones 123',6,1);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (4,'72752403','Pedro','De brownie','Sasuke@gmail.com','887733652','calle los nogales 785',16,1);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (5,'72752404','Hinata','Orderique Pizarro','Hinata@gmail.com','997744258','calle los heraldos negros 444',16,2);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (6,'72752405','Sara','Palacios Castro','Sara@gmail.com','991133475','calle los upecinos 122',26,2);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (7,'72752406','Paula','Perez Neves','Paula@gmail.com','993344758','avenida primavera 123',4,2);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (8,'72752407','Valentino','Lujan Machuca','Valentino@gmail.com','994565897','avenida holanda 852',13,1);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (9,'72752408','Gerardo','Parodi','Gerardo@gmail.com','993216547','av mariscal 758',13,1);
+INSERT INTO administrativo(id,dni,nombres,apellidos,email,celular,direccion,distrito_id,genero_id) VALUES (10,'72752409','Antonio','Porcella','Antonio@gmail.com','998745632','calle las moras 447',31,1);
+
+-- TABLA MATRICULA
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (1,'2023-02-21T10:34:09',1,1,1,'PROCEDE',1);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (2,'2023-01-15T10:34:09',1,2,2,'PROCEDE',2);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (3,'2022-01-15T10:34:09',2,1,3,'NO PROCEDE',3);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (4,'2022-01-21T10:34:09',2,3,4,'PROCEDE',4);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (5,'2022-02-23T10:34:09',2,4,5,'NO PROCEDE',5);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (6,'2021-02-01T10:34:09',3,2,6,'PROCEDE',6);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (7,'2021-02-19T10:34:09',3,2,7,'NO PROCEDE',7);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (8,'2023-03-04T10:34:09',1,7,8,'PROCEDE',8);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (9,'2023-01-03T10:34:09',1,8,9,'NO PROCEDE',9);
+INSERT INTO matricula(id,fechahora,anholectivo_id,administrativo_id,alumno_id,estado,grado_id) VALUES (10,'2023-02-15T10:34:09',1,9,10,'PROCEDE',10);
+--TABLA PENSION
+INSERT INTO pension(pago_id,matricula_id) VALUES(1,1);
+INSERT INTO pension(pago_id,matricula_id) VALUES(2,2);
+INSERT INTO pension(pago_id,matricula_id) VALUES(3,3);
+INSERT INTO pension(pago_id,matricula_id) VALUES(4,4);
+INSERT INTO pension(pago_id,matricula_id) VALUES(5,5);
+INSERT INTO pension(pago_id,matricula_id) VALUES(6,6);
+INSERT INTO pension(pago_id,matricula_id) VALUES(7,7);
+INSERT INTO pension(pago_id,matricula_id) VALUES(8,8);
+INSERT INTO pension(pago_id,matricula_id) VALUES(9,9);
+INSERT INTO pension(pago_id,matricula_id) VALUES(10,10);
+ 
+---selecionados-----
+select * from alumno
+select * from genero
+select * from parentesco
+select * from distrito
+select * from apoderado
+select * from apoderado_alumno
+select * from metodopago
+select * from pago
+select * from anholectivo
+select * from salon
+select * from horario
+select * from modalidad
+select * from especialidad
+select *from docente
+select *from tutor
+select *from nivel
+select *from grado
+select *from seccion
+select *from curso
+select *from administrativo
+select *from matricula
+select *from pension
+
+---analisis----
+select * from horario
+
+select *from curso
+select *from docente
+
+select *from grado
+select *from seccion
+select *from curso
+select * from especialidad
+select * from horario
+--JOHN PAUL MAMANI QUISPE---
+
+--(1) Dos Funciones para hallar  el precio total mas igv  y para hallar el precio de boleta vencidad de un alumno.
+CREATE FUNCTION Monto_Mas_Igv(@ID_Alumno REAL) RETURNS REAL
+AS
+BEGIN
+DECLARE @Monto_Mas_Igv REAL
+SELECT @Monto_Mas_Igv = (monto + monto*0.18) FROM pago WHERE id = @ID_Alumno
+RETURN @Monto_Mas_Igv
+END
+
+SELECT nombres, apellidos,dni, dbo.Monto_Mas_Igv(2) as Monto_MAS_Igv FROM alumno WHERE id =2
+
+CREATE FUNCTION BoletaVencida(@ID_Alumno REAL) RETURNS REAL
+AS
+BEGIN
+DECLARE @MORA REAL = 0.05   -- LA MORA ES EL 5% DEL MONTO TOTAL PENSION
+DECLARE @BoletaVencidaMora REAL
+SELECT @BoletaVencidaMora = (monto + monto*0.18 + monto*@MORA ) FROM pago WHERE id = @ID_Alumno
+RETURN @BoletaVencidaMora
+END
+SELECT nombres, apellidos,dni, dbo.BoletaVencida(2) as Monto_MAS_Igv FROM alumno WHERE id =2
+SELECT nombres, apellidos,dni, dbo.Monto_Mas_Igv(2) as Monto_MAS_Igv FROM alumno WHERE id =2
+
+--(2)MOSTRAR ALUMNOS MATRICULADOS CON SUS RESPECTIVOS HORARIOS, GRADO , CURSO PROFESORES, Y ESPECIALIDAD 
+select m.alumno_id, a.nombres, a.apellidos,a.dni,
+ah.nombre,g.nombre as Grado ,
+c.nombre as curso , h.hora_inicio , d.nombres +  d.apellidos as Profesor ,
+e.descripcion as EspecialidadDocente  from matricula m
+inner join   alumno a on m.id=a.id
+inner join   anholectivo ah on m.id =ah.id
+inner join  grado g on m.id = g.id
+inner join docente d on g.id = d.id
+inner join curso c on d.id=c.id
+inner join horario h on c.id = h.id
+inner join especialidad e on d.id= e.id
+
+--(3). Muestra la fecha de matricula de cada alumno por meses
+select m.alumno_id, a.nombres, a.apellidos,a.dni,  m.estado,grado_id from matricula m
+inner join   alumno a on m.id=a.id
+  where month( fechahora) = '2'  --- enero- febrero-- marzo
+select * from matricula
+
+---(4)Cuantas veces un alumno realizo la Matricula
+select a.nombres, a.apellidos, count(m.alumno_id) as nro_matriculas
+from alumno a
+	join matricula m on a.id=m.alumno_id
+group by nombres, apellidos
+select * from matricula
+
+--(5)Queremos sacar el precio unitario  promedio de unas determinadas boletas por su precio unitario mayor a = 100
+select id, AVG(monto)as Precio_unitario 
+from pago
+group by id
+having AVG(monto)>=100;
+
+--(6)Queremos saber los precios maximos que  pagan los  (Alumnos) mayor a = 100 SOLES
+select id, max (monto) as max_valor
+from pago
+group by  id
+having max(monto)>=200
+order by 2 asc;
+
+--Prodemientos--
+
+CREATE PROCEDURE SP_PRIEBA1
+AS
+PRINT 'HOLA MUNDO'
+
+EXECUTE SP_PRIEBA1
+
+CREATE PROC SP_CONSULTA 
+AS
+SELECT* FROM alumno
+WHERE id = '1'
+EXECUTE SP_CONSULTA
+
+
+CREATE PROC SP_RestarExistencia @codProd as varchar(4), @cantidad as int 
+AS
+UPDATE pago set monto=monto - @cantidad where id=@codProd select *from pago
+
+exec SP_RestarExistencia '1',60
+
+
+CREATE PROC INSERTAR_AlUMNOS
+@idalumno int ,
+@dnialumno varchar (8),
+@nombreAlumno char (50),
+@apellidosalumno char (50),
+@edadalumno int,
+@idGenero int  as
+declare @total int -- contador de resultados
+select @total = count (id) from alumno where id = @idalumno or dni= @dnialumno -- alamacena los valores para la condicion si existe los codigo y dni no es diferente al total
+if (@total<1) --- no se enctraron resultados
+begin
+insert into alumno values(@idalumno ,@dnialumno, @nombreAlumno , @apellidosalumno , @edadalumno, @idGenero )
+end 
+else begin
+print 'ESTE ALUMNO YA SIDO INGRESADO'
+end
+
+exec INSERTAR_AlUMNOS 11 ,53553535,'john ','mamani',29, 1
+exec INSERTAR_AlUMNOS 12 ,27272777,'Jorge ','Flores',29, 1
+exec INSERTAR_AlUMNOS 13 ,56565656,'Magna ','Rivera',22, 2
+select * from alumno
+
+create procedure prueba
+as
+select * from alumno;
+go
+
+exec prueba
+

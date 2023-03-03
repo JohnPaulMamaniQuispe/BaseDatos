@@ -1,0 +1,69 @@
+create function f_comments_per_movie(@title varchar(50)) returns int
+begin
+	declare @quantity int
+	select @quantity = count(comments)
+	from ratings r 
+		join movies m on r.movie_id = m.id
+		where title = @title
+	returns @quantity
+end;
+
+--cantidad de actores que participaron en una pelicula de un determinado genero, anio y genero como parametro
+create function count_actor_por_genreanio(@genero varchar(20), @anio int) returns int
+begin 
+	declare @quantity int
+	select @quantity = count(a.id)
+	from actors a
+		join movie_cast mc on a.id = mc.actor_id
+		join movies m on mc.movie_id = m.id
+		join genres g on m.id= g.id
+		where description=@genero and year=@anio
+	return @quantity 
+end;
+	
+select dbo.count_actor_por_genreanio('Ciencia ficción', 2000) as 'Cantidad Actores' from actors
+
+-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+create function f_comments_per_genre(@description varchar(50)) returns table
+as return
+	(select name, count(comment) as quantity 
+		from ratings r
+		join reviewers re on r.reviewer_id = re.id
+		join movies m on r.movie_id = m.id
+		join genres g on m.genre_id = g.id
+		where description = @description
+		group by name);
+
+
+create function f_reviewer_max_comments_per_genre(@description varchar(50)) returns table
+as return
+	(
+		select name from dbo.f_comments_per_genre(@description)
+		where quantity = (
+			select max(quantity) from dbo.f_comments_per_genre(@description)));
+
+select * from dbo.f_reviewer_max_comments_per_genre('drama');
+
+
+--nombre actor con mas participación en peliculas de un genero, año parametros ambos
+
+create function f_actor_per_movie_genre_anio(@genero varchar(20), @anio int) returns table
+as return 
+	(select name, count(a.id) as cantidad
+		from actors a
+		join movie_cast mc on a.id=mc.actor_id
+		join movies m on mc.movie_id=m.id
+		join genres g on m.id=g.id
+		where description=@genero and year=@anio
+		group by name
+	);
+
+
+create function f_max_actor_per_genre_anio(@genero varchar(20), @anio int) returns table
+as return
+	(
+		select name from dbo.f_actor_per_movie_genre_anio(@genero, @anio)
+		where cantidad = (
+			select max(cantidad) from dbo.f_actor_per_movie_genre_anio(@genero, @anio)))
+
+select * from dbo.f_max_actor_per_genre_anio('Ciencia ficción', 2000)
