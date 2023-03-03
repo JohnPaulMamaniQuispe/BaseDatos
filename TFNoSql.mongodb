@@ -2,55 +2,34 @@
 
 use('MatDigital')
 db.createCollection("parentesco",{
-    validator:{
-        $jsonSchema:
-            {
-                bsonType: "object",
-                description: "Information about the parentesco",
-                required: ["nombre","descripcion"],
-
-                properties:{
-                    nombre:{
-                        bsonType:"string",
-                        description:"El nombre es string y es obligatorio"
-                    },
-                    descripcion:{
-                        bsonType:"string",
-                        description:"El descripcion es string y es obligatorio"
-                    }
+    validator:
+    {$jsonSchema:
+        { bsonType: "object",
+            description: "Information about the parentesco",
+            required: ["nombre","descripcion"],
+            properties:{
+                nombre:{
+                bsonType:"string",
+                description:"El nombre es string y es obligatorio"
+                      },
+                descripcion:{
+                bsonType:"string",
+                description:"El descripcion es string y es obligatorio"
+                }
+            }
+        }
     }
-    }
-}
-}
-)
+})
 
 use('MatDigital')
-db.parentesco.insertMany(
-[
-    {
-        nombre: "Padre",
-        descripcion: "Padre del alumno"
-    },
-   {
-        nombre: "Madre",
-        descripcion: "Madre del alumno"
-    },
-    {
-        nombre: "Tio",
-        descripcion: "Tio del alumno"
-    },
-    {
-        nombre: "Tia",
-        descripcion: "Tia del alumno"
-    },
-    {
-        nombre: "Abuelo",
-        descripcion: "Abuelo del alumno"
-    },
-     {
-        nombre: "Abuela",
-        descripcion: "Abuela del alumno"
-    }])
+db.parentesco.insertMany([
+    {nombre: "Padre", descripcion: "Padre del alumno"},
+    {nombre: "Madre", descripcion: "Madre del alumno"},
+    {nombre: "Tio",   descripcion: "Tio del alumno"},
+    {nombre: "Tia",   descripcion: "Tia del alumno"},
+    {nombre: "Abuelo",descripcion: "Abuelo del alumno"},
+    {nombre: "Abuela",descripcion: "Abuela del alumno"}
+    ]);
 
 
 
@@ -164,60 +143,13 @@ db.createCollection("matricula",{
 
 
 use('MatDigital')
-db.matricula.insertMany(
-[
-{
-    fechahora: "2023-01-10",
-    anholectivo: "2023",
-    montopagar: 360.00,
-    estado: "Procede",
-    grado: 1,
-    nivel: "Primaria",
-    seccion: "A"
-
-},
-{
-    fechahora: "2023-02-11",
-    anholectivo: "2023",
-    montopagar: 240.00,
-    estado: " No Procede",
-    grado: 2,
-    nivel: "Secundaria",
-    seccion: "B"
-
-},
-{
-    fechahora: "2023-03-11",
-    anholectivo: "2023",
-    montopagar: 120.00,
-    estado: " No Procede",
-    grado: 3,
-    nivel: "Primaria",
-    seccion: "A"
-
-},
-{
-    fechahora: "2023-01-13",
-    anholectivo: "2023",
-    montopagar: 150.00,
-    estado: "Procede",
-    grado: 3,
-    nivel: "Secundaria",
-    seccion: "B"
-
-},
-{
-    fechahora: "2023-02-13",
-    anholectivo: "2023",
-    montopagar: 250.00,
-    estado: "Procede",
-    grado: 1,
-    nivel: "Secundaria",
-    seccion: "A"
-
-}
-]
-)
+db.matricula.insertMany([
+{fechahora: "2023-01-10",anholectivo:"2023",montopagar: 360.00,estado: "Procede",grado: 1,nivel: "Primaria",seccion: "A"},
+{fechahora: "2023-02-11",anholectivo:"2023",montopagar: 240.00,estado: "No Procede",grado: 2,nivel: "Secundaria",seccion: "B"},
+{fechahora: "2023-03-11",anholectivo:"2023",montopagar: 120.00,estado: "No Procede",grado: 3,nivel: "Primaria",seccion: "A"},
+{fechahora: "2023-01-13",anholectivo:"2023",montopagar: 150.00,estado: "Procede",grado: 3,nivel: "Secundaria",seccion: "B"},
+{fechahora: "2023-02-13",anholectivo:"2023",montopagar: 250.00,estado: "Procede",grado: 1,nivel: "Secundaria",seccion: "A"}
+])
 
 use('MatDigital')
 db.createCollection("alumno",{
@@ -262,55 +194,16 @@ db.createCollection("alumno",{
     }
     }
 }
-}
-)
-
-
+})
 use('MatDigital')
 db.alumno.insertMany(
 [
-{   nombre: "Juan",
-    apellido: "Mendoza",
-    genero: "Masculino",
-    dni: 23456787,
-    grado: 1,
-    nivel: "Primaria",
-    seccion: "A"
-},
-{   nombre: "Julio",
-    apellido: "Flores",
-    genero: "Masculino",
-    dni: 23456222,
-    grado: 2,
-    nivel: "Primaria",
-    seccion: "A"
-},
-{   nombre: "Angela",
-    apellido: "Rivera",
-    genero: "Femenino",
-    dni: 23454444,
-    grado: 3,
-    nivel: "Secundaria",
-    seccion: "B"
-},
-{   nombre: "John",
-    apellido: "Ramirez",
-    genero: "Masculino",
-    dni: 23454567,
-    grado: 1,
-    nivel: "Primaria",
-    seccion: "B"
-},
-{   nombre: "Xiomara",
-    apellido: "Quispe",
-    genero: "Femenino",
-    dni: 23456345,
-    grado: 2,
-    nivel: "Secundaria",
-    seccion: "A"
-}
-]
-)
+{nombre: "Juan",apellido: "Mendoza",genero: "Masculino",dni: 23456787,grado: 1,nivel: "Primaria",seccion: "A"},
+{nombre: "Julio",apellido: "Flores",genero: "Masculino",dni: 23456222,grado: 2,nivel: "Primaria",seccion: "A"},
+{nombre: "Angela",apellido: "Rivera",genero: "Femenino",dni: 23454444,grado: 3,nivel: "Secundaria",seccion: "B"},
+{nombre: "John",apellido: "Ramirez",genero: "Masculino",dni: 23454567,grado: 1,nivel: "Primaria",seccion: "B"},
+{nombre: "Xiomara",apellido: "Quispe",genero: "Femenino",dni: 23456345,grado: 2,nivel: "Secundaria",seccion: "A"}
+])
 
 
 use('MatDigital')
@@ -371,16 +264,9 @@ db.createCollection("curso",{
 use('MatDigital')
 db.curso.insertMany(
 [
-{
-    nombre: "Aritmetica",
-    descripcion: "Area de Matematicas",
-    profesor: {
-        id: 1,
-        nombre: "Luis Miguel",
-        especialidad: " especilidad en matematica"
-        },
-    horario: "8:00 - 10:00",
-    seccion: "A"
+{nombre: "Aritmetica",descripcion: "Area de Matematicas",
+    profesor: {id: 1,nombre: "Luis Miguel",especialidad: " especilidad en matematica"},
+    horario: "8:00 - 10:00",seccion: "A"
 },
 {
     nombre: "Geometria",
@@ -510,12 +396,14 @@ db.clase.insertMany(
 
 use('MatDigital')
 db.alumno.find()
+use('MatDigital')
+db.matricula.find()
 
 
 //ENCONTRAR UN CURSO POR SU COSTO o MOSTRAR LOS CURSOS QUE TIENEN EL MISMO COSTO
 use('MatDigital')
 db.matricula.find(
-    {"montopagar": 360.00}
+    {"montopagar": 240.00}
 )
 
 //ORDENAR DESCEMDEMTEMENTE O ASCENDENTEMENTE POR COSTO DEL CURSO
@@ -525,15 +413,413 @@ db.matricula.find().sort({montopagar:1})
 
 //CARGAR O ACTUALIZAR UN DATO DE UNA COLLECCION
 use('MatDigital')
-db.matricula.update(
-{montopagar:448.99},
+db.matricula.updateOne(
+{montopagar:448.00},
 {
     $set:{
-        montopagar:450.00
+        montopagar:188.88
     }
 }
 )
 use('MatDigital')
 db.matricula.find()
+
+//Agrupo por cada seccion y luego crea un campo para calcular los montos pagados de cada seccion 
 use('MatDigital')
-db.matematica.find()
+db.matricula.aggregate([
+{$match: { $or:[{seccion:'A'},{seccion:'B'}]}},
+{$group: {_id: '$seccion', total : {$sum: '$montopagar'}}}]
+)
+
+//Quiero saber quien es administrador que registra más alumnos 
+
+db.matriculas.aggregate([
+  {$group: { _id: "$administradores_id", count: {$sum: 1}}},
+  {$match: {count: {$gte: 1}}}
+]);
+
+//Quiero saber cuánto ingreso total tengo en función al grado
+
+db.matriculas.aggregate([
+  {$group: { _id: "$grados_id", count: {$sum: "$monto"}}},
+]);
+
+//Para obtener con los alumnos que tienen menos de 13 años
+db.alumnos.aggregate([
+  { $match: { 'apoderado.direccion.distrito': 'Surco' } },
+  { $match: { edad: { $lt: 13 } } },
+  { $sort: { edad: -1 } }
+])
+
+//Hallar el alumno que paga el monto más alto
+db.matriculas.aggregate([
+  {$group: {_id: "$alumnos_id",total_pagado: { $sum: "$monto" }}},
+  {$lookup: {from: "alumnos", localField: "_id",foreignField: "_id",as: "alumno"}},
+  {$sort: { total_pagado: -1 }},
+  {$limit: 1}]) 
+
+//Mostrar los alumnos que viven en el distrito de Surco y ordenarlos por edad de mayor a menor:
+db.alumnos.aggregate([
+    {$match: {'apoderado.direccion.distrito': 'Surco'}},
+    {$sort: {edad: -1}}])
+
+//Mostrar los alumnos que pagaron por depósito en la colección matriculas:
+db.matriculas.aggregate([
+    {$unwind: '$pagos'},
+    {$match: {'pagos.tipopago': 'Deposito'}}])
+
+//RESOLUCION EXAMEN FINAL 2023 0 
+
+
+use('Ref')
+db.createCollection("apartamento",{
+  validator:{
+      $jsonSchema:
+      {
+        bsonType: "object",
+        description:"Informacion sobre el Apartamente",
+        required:["nombre_anfitrión","elementos","nombre_apartamento","valoración","nro_reseñas","tarifa_apartamento","address"],
+        properties:{
+           nombre_anfitrión:{
+              bsonType:"string",
+              description:"El nombre del anfitrión es un campo string y es obligatorio"
+           },
+           elementos:{
+              bsonType:"array",
+              description:"Cada elemento que cuenta el apartamento es un campo string y es obligatorio",
+               minItems: 3, 
+               items:{
+                  bsonType: "string",
+                  description: "Cada elemento que cuenta el apartamento es un campo string y es obligatorio"
+              }
+            },
+           nombre_apartamento:{
+              bsonType:"string",
+              description:"El nombre del apartamento es un campo string y es obligatorio"
+            },
+            valoración:{
+                bsonType:"number",
+                 minimum:0.0,
+                 maximum:5.0,
+                description:"La valoración debe ser un decimal y es obligatorio"
+            },
+            nro_reseñas:{
+              bsonType:"int",
+              description:"El número de reseñas es un entero y es obligatorio"
+            },
+            tarifa_apartamento:{
+              bsonType:[ "double" ],
+              description:"La tarififa de apartamento es un entero y es obligatorio"
+            },
+            address:{ 
+              bsonType: "object",
+              description: "Address is important because it is a very valid data to register the student's address",
+              required: ["city","street"],
+              properties:{
+                city:{
+                  bsonType:"string",
+                  description: "string is very important and obligatory"
+                },
+                street:{
+                  bsonType:"string",
+                  description: "street is very important and obligatory"
+                }
+              }
+            }
+        }
+      }
+  }
+})
+
+use('Ref')
+db.apartamento.insertMany( [
+  {
+   nombre_anfitrión: "Ximena",
+   elementos: ["Vista al Jardin","cocina","wifi","neytflix","seguridad"],
+   nombre_apartamento: "killa",
+   valoración:5,
+   nro_reseñas:53,
+   tarifa_apartamento: Double(180.50),
+   address: {city: "NYC",street: "33rd Street"},
+  },{
+   nombre_anfitrión: "Angie",
+   elementos: ["Vista al Jardin","cocina","wifi","neytflix","seguridad"],
+   nombre_apartamento: "inti",
+   valoración:4,
+   nro_reseñas:70,
+   tarifa_apartamento: Double(110.50),
+   address: {city: "NYC",street: "33rd Street"}}
+
+])
+
+use('Ref')
+db.apartamento.find()
+
+
+use('Ref')
+db.createCollection("students", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         title: "Student Object Validation",
+         required: [ "name", "year","major","gpa","address"],
+         properties: {
+            name: {
+               bsonType: "string",
+               description: "'name' must be a string and is required"
+            },
+            year: {
+               bsonType: "int",
+               minimum: 2017,
+               maximum: 3017,
+               description: "'year' must be an integer in [ 2017, 3017 ] and is required"
+            },
+            gpa: {
+               bsonType: [ "double" ],
+               description: "'gpa' must be a double if the field exists"
+            },
+            address:{ 
+              bsonType: "object",
+              description: "Address is important because it is a very valid data to register the student's address",
+              required: ["city","street"],
+              properties:{
+                city:{
+                  bsonType:"string",
+                  description: "string is very important and obligatory"
+                },
+                street:{
+                  bsonType:"string",
+                  description: "street is very important and obligatory"
+                }
+              }
+            }
+         }
+      }
+   }
+} )
+
+
+use('Ref')
+db.students.insertOne( {
+   name: "Alice",
+   year: NumberInt(2019),
+   major: "History",
+   gpa: Double(3.0),
+   address: 
+    {city: "NYC",
+    street: "33rd Street"}
+    } )
+
+use('Ref')
+db.students.find()
+
+use('EF_201919105')
+db.createCollection("Pasajes",{
+    validator:{
+        $jsonSchema:
+            {
+        bsonType: "object",
+        description: "Information about Pasajes",
+        required: ["ciudad_origen","ciudad_destino","fecha_hora","nombreAero","NroAsiento","Precio","datosPasajero","hospedaje"],
+        properties:{
+           ciudad_origen:{
+              bsonType: "string",
+              description: "La ciudad de Origen debe ser un string y es obligatorio"
+                },
+           ciudad_destino:{
+              bsonType:"string",
+              description:"la ciudad destino debe ser un string y es obligatorio"
+                    },
+           fecha_hora:{
+            bsonType:"string",
+            description:"La fecha debe ser un string y es obligatorio"
+               },
+            nombreAero:{
+            bsonType:"string",
+            description:"El NombreAero es un string y es obligatorio"
+               },
+           NroAsiento:{
+            bsonType:"int",
+            minimum:1,
+            description:"La valoración es un numero decimal mayor a 0 y menor igual que 5 estrellas y es obligatorio"
+        },
+           Precio:{
+            bsonType:[ "double" ],
+            description:"El precio debe puede ser un numero decimal y es obligatorio"
+        },
+        datosPasajero:{ 
+              bsonType: "object",
+              description: "Information about datosPasajero ",
+              required: ["Apellidos","Nombres","DNI"],
+              properties:{
+                 Apellidos:{
+                  bsonType:"string",
+                  description: "El apellido es un string y es obligatorio"
+                },
+               Nombres:{
+                  bsonType:"string",
+                  description:"Los nombres son string y es obligatorio"
+                },
+                 DNI:{
+                 bsonType:"string",
+                 description:"El DNI es string y es un dato obligatorio"
+                }
+              }
+            },
+            hospedaje:{ 
+              bsonType: "object",
+              description: "Information about  hospedaje ",
+              required: ["cantidad_noches","cantidad_personas_habitacion","precio_por_noche"],
+              properties:{
+                cantidad_noches:{
+                  bsonType:"int",
+                  description: "El cantidad noches es un tipo dato int y es obligatorio"
+                },
+               cantidad_personas_habitacion:{
+                  bsonType:"int",
+                  description:"antidad_personas_habitacion son int y es obligatorio"
+                },
+              precio_por_noche:{
+                 bsonType:[ "double" ],
+                 description:"El  precio_por_noche es double y es un dato obligatorio"
+                }
+              }
+            },     
+    }
+    }
+}
+}
+)
+use('EF_201919105')
+db.Pasajes.insertOne( {
+  
+   ciudad_origen: "Lima",
+   ciudad_destino: "Cusco",
+   fecha_hora: "23/03/2023 4:00am",
+   nombreAero: "Avianca",
+   NroAsiento: 56,
+   Precio: Double(559.50),
+   datosPasajero: { 
+      Apellidos: "MAMANI",
+      Nombres: "John",
+      DNI:"65656555"},
+   hospedaje: {
+   cantidad_noches: 1,
+   cantidad_personas_habitacion:2,
+   precio_por_noche:Double(150.50)}
+  })
+
+
+use('EF_201919105')
+db.createCollection( "students",{
+    validator:{
+       $jsonSchema:
+        { 
+          bsonType: "object",
+          description: "Document describing a student",
+          required: ["name", "year", "courses", "address", "genre"], 
+          properties:{
+      name:{
+           bsonType: "string",
+           description: "Name must be a string and is required" },
+      year: {
+            bsonType: "int",
+            minimum: 2010,
+            maximum: 2022,
+            description: "Year must be an int and is required"
+          },
+      courses : {
+           bsonType: "array",
+           description: "Course must be an array of strings",
+           minItems: 1,
+           uniqueItems: true,
+           items: {
+           bsonType: "string" }
+          },
+      address : {
+          bsonType: "object", 
+          required: ["city"], 
+          properties: {
+      city: {
+          bsonType: "string",
+          description: "City must be a string and is required"
+         } }}, 
+      enre: {
+        enum: ["M", "F"],
+        description: "Genre can only be either 'M' or 'F' and is required" }
+   } 
+  }
+ }  
+ }
+);
+
+use('EF_201919105')
+db.students.insertMany( [
+  {
+    name: "john paul",
+    year: 2019,
+    courses: ["base datos","programacion","complejidad algoritmica"],
+    address: {city: "Lima"},
+    genre: "M"
+  },
+   {
+    name: "Angelica",
+    year: 2018,
+    courses: ["base datos","programacion"],
+    address: {city: "Huancayo"},
+    genre: "F"
+  },
+   {
+    name: "Marcio",
+    year: 2016,
+    courses: ["base datos","programacion"],
+    address: {city: "Lima"},
+    genre: "M"
+  },
+   {
+    name: "Agie",
+    year: 2021,
+    courses: ["base datos","programacion"],
+    address: {city: "Lima"},
+    genre: "F"
+  }
+
+])
+
+//(1)Escribir una consulta que permita mostrar 
+//todos los estudiantes de un determinado curso y ciudad.
+
+use('EF_201919105')
+db.students.aggregate(
+[{$group:{'courses':[], 'address':{}}}]
+)
+use('EF_201919105')
+db.students.aggregate([
+  {$match: {$or:[{courses:'base datos'},{address:'Huancayo'} ]}}
+])
+
+//(2)Escribir una consulta que permita actualizar a un
+// determinado estudiante cambiándole su año de ingreso.
+ use('EF_201919105')
+db.students.updateOne(
+{year:2019},
+{
+    $set:{
+    year:2022
+    }
+}
+)
+ use('EF_201919105')
+db.students.find()
+
+//(3)Escribir una consulta que permita mostrar todos 
+//los estudiantes que ingresaron entre el 2015 y 2018 
+//y que sean de la ciudad de LIMA.
+
+
+
+
+
+
+
+
