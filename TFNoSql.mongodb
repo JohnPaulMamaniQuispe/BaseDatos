@@ -1,0 +1,539 @@
+
+
+use('MatDigital')
+db.createCollection("parentesco",{
+    validator:{
+        $jsonSchema:
+            {
+                bsonType: "object",
+                description: "Information about the parentesco",
+                required: ["nombre","descripcion"],
+
+                properties:{
+                    nombre:{
+                        bsonType:"string",
+                        description:"El nombre es string y es obligatorio"
+                    },
+                    descripcion:{
+                        bsonType:"string",
+                        description:"El descripcion es string y es obligatorio"
+                    }
+    }
+    }
+}
+}
+)
+
+use('MatDigital')
+db.parentesco.insertMany(
+[
+    {
+        nombre: "Padre",
+        descripcion: "Padre del alumno"
+    },
+   {
+        nombre: "Madre",
+        descripcion: "Madre del alumno"
+    },
+    {
+        nombre: "Tio",
+        descripcion: "Tio del alumno"
+    },
+    {
+        nombre: "Tia",
+        descripcion: "Tia del alumno"
+    },
+    {
+        nombre: "Abuelo",
+        descripcion: "Abuelo del alumno"
+    },
+     {
+        nombre: "Abuela",
+        descripcion: "Abuela del alumno"
+    }])
+
+
+
+
+
+use('MatDigital')
+db.createCollection("metodopago",{
+    validator:{
+        $jsonSchema:
+            {
+                bsonType: "object",
+                description: "Information about the metodo de pago",
+                required: ["nombre","descripcion"],
+
+                properties:{
+                    nombre:{
+                        bsonType:"string",
+                        description:"El nombre es string y es obligatorio"
+                    },
+                    descripcion:{
+                        bsonType:"string",
+                        description:"El descripcion es string y es obligatorio"
+                    }
+    }
+    }
+}
+}
+)
+
+use('MatDigital')
+db.parentesco.find()
+
+db.metodopago.insertMany(
+[
+    {
+        nombre: "Padre",
+        descripcion: "Padre del alumno"
+    },
+   {
+        nombre: "Madre",
+        descripcion: "Madre del alumno"
+    },
+    {
+        nombre: "Tio",
+        descripcion: "Tio del alumno"
+    },
+    {
+        nombre: "Tia",
+        descripcion: "Tia del alumno"
+    },
+    {
+        nombre: "Abuelo",
+        descripcion: "Abuelo del alumno"
+    },
+     {
+        nombre: "Abuela",
+        descripcion: "Abuela del alumno"
+    }])
+
+
+
+
+
+
+
+use('MatDigital')
+db.createCollection("matricula",{
+    validator:{
+        $jsonSchema:
+            {
+                bsonType: "object",
+                description: "Information about the matricula",
+                required: ["fechahora","anholectivo","montopagar","estado","grado","nivel","seccion"],
+                properties:{
+                    fechahora:{
+                        bsonType:"string",
+                        description:"La fecha es string y es obligatorio"
+                    },
+                    anholectivo:{
+                        bsonType:"string",
+                        description:"El fecha es string y es obligatorio"
+                    },
+                    montopagar:{
+                      bsonType:"number",
+                          minimum:0.0,
+                          maximum:450.0,
+                        description:"El montopagar  debe ser un numero decimal y es obligatorio"
+                    },
+                    estado:{
+                        bsonType:"string",
+                        description:"El estado es string y es obligatorio"
+                    },
+                    grado:{
+                        bsonType:"int",
+                        description:"El grado int y es obligatorio"
+                    },
+                    nivel:{
+                        bsonType:"string",
+                        description:"El nivel es string  y es obligatorio"
+                    },
+                    seccion:{
+                        bsonType:"string",
+                        description:"El seccion es string y es obligatorio"
+                    }
+
+    }
+    }
+}
+}
+)
+
+
+use('MatDigital')
+db.matricula.insertMany(
+[
+{
+    fechahora: "2023-01-10",
+    anholectivo: "2023",
+    montopagar: 360.00,
+    estado: "Procede",
+    grado: 1,
+    nivel: "Primaria",
+    seccion: "A"
+
+},
+{
+    fechahora: "2023-02-11",
+    anholectivo: "2023",
+    montopagar: 240.00,
+    estado: " No Procede",
+    grado: 2,
+    nivel: "Secundaria",
+    seccion: "B"
+
+},
+{
+    fechahora: "2023-03-11",
+    anholectivo: "2023",
+    montopagar: 120.00,
+    estado: " No Procede",
+    grado: 3,
+    nivel: "Primaria",
+    seccion: "A"
+
+},
+{
+    fechahora: "2023-01-13",
+    anholectivo: "2023",
+    montopagar: 150.00,
+    estado: "Procede",
+    grado: 3,
+    nivel: "Secundaria",
+    seccion: "B"
+
+},
+{
+    fechahora: "2023-02-13",
+    anholectivo: "2023",
+    montopagar: 250.00,
+    estado: "Procede",
+    grado: 1,
+    nivel: "Secundaria",
+    seccion: "A"
+
+}
+]
+)
+
+use('MatDigital')
+db.createCollection("alumno",{
+    validator:{
+        $jsonSchema:
+            {
+                bsonType: "object",
+                description: "Information about the alumno",
+                required: ["nombre","apellido","genero","dni","grado","nivel","seccion"],
+                properties:{
+                    nombre:{
+                        bsonType:"string",
+                        description:"El nombre es dato tipo string y es obligatorio"
+                    },
+                    apellido:{
+                        bsonType:"string",
+                        description:"El apellidos es dato tipo string y es obligatorio"
+                    },
+                    genero:{
+                      bsonType:"string",
+                        description:"El genero  debe ser un dato string y es obligatorio"
+                    },
+                    dni:{
+                       bsonType:"number",
+                          minimum:00000000,
+                          maximum:99999999,
+                        description:"El dni  debe ser un numero 8 digitos y es obligatorio"
+                    },
+                    grado:{
+                        bsonType:"int",
+                        description:"El grado  debe ser un numero entero y es obligatorio"
+                    },
+                    nivel:{
+                        bsonType:"string",
+                        description:"El nivel es string  y es obligatorio"
+                    },
+                    seccion:{
+                        bsonType:"string",
+                        description:"El seccion es string y es obligatorio"
+                    }
+
+    }
+    }
+}
+}
+)
+
+
+use('MatDigital')
+db.alumno.insertMany(
+[
+{   nombre: "Juan",
+    apellido: "Mendoza",
+    genero: "Masculino",
+    dni: 23456787,
+    grado: 1,
+    nivel: "Primaria",
+    seccion: "A"
+},
+{   nombre: "Julio",
+    apellido: "Flores",
+    genero: "Masculino",
+    dni: 23456222,
+    grado: 2,
+    nivel: "Primaria",
+    seccion: "A"
+},
+{   nombre: "Angela",
+    apellido: "Rivera",
+    genero: "Femenino",
+    dni: 23454444,
+    grado: 3,
+    nivel: "Secundaria",
+    seccion: "B"
+},
+{   nombre: "John",
+    apellido: "Ramirez",
+    genero: "Masculino",
+    dni: 23454567,
+    grado: 1,
+    nivel: "Primaria",
+    seccion: "B"
+},
+{   nombre: "Xiomara",
+    apellido: "Quispe",
+    genero: "Femenino",
+    dni: 23456345,
+    grado: 2,
+    nivel: "Secundaria",
+    seccion: "A"
+}
+]
+)
+
+
+use('MatDigital')
+db.createCollection("curso",{
+    validator:{
+        $jsonSchema:
+            {
+                bsonType: "object",
+                description: "Information about the curso",
+                required: ["nombre","descripcion","profesor","horario","seccion"],
+                properties:{
+                    nombre:{
+                        bsonType:"string",
+                        description:"El nombre es dato tipo string y es obligatorio"
+                    },
+                    descripcion:{
+                        bsonType:"string",
+                        description:"El descripcion es dato tipo string y es obligatorio"
+                    },
+                    modalidad:{
+                      bsonType:"string",
+                        description:"El modalidad  debe ser un dato string y es obligatorio"
+                    },
+                    profesor:{
+                        bsonType:"object",
+                        description:"El docente  debe ser un dato string y es obligatorio",
+                        required:["id","nombre","especialidad"],
+                        properties:{
+                            id:{
+                                bsonType:"int",
+                                description:"id debe ser un entero y es obligatorio"
+                            },
+                            nombre:{
+                                bsonType:"string",
+                                description:"nombre debe ser un string y es obligatorio"
+                            },
+                            especialidad:{
+                                bsonType:"string",
+                                description:"especialidad debe ser un string y es obligatorio"
+                            }
+                        }
+                    },
+                    horario:{
+                        bsonType:"string",
+                        description:"El horario  debe ser un string y es obligatorio"
+                    },
+                    seccion:{
+                        bsonType:"string",
+                        description:"El seccion es string y es obligatorio"
+                    }
+
+    }
+    }
+}
+}
+)
+
+use('MatDigital')
+db.curso.insertMany(
+[
+{
+    nombre: "Aritmetica",
+    descripcion: "Area de Matematicas",
+    profesor: {
+        id: 1,
+        nombre: "Luis Miguel",
+        especialidad: " especilidad en matematica"
+        },
+    horario: "8:00 - 10:00",
+    seccion: "A"
+},
+{
+    nombre: "Geometria",
+    descripcion: "Area de Matematicas",
+    profesor: {
+        id: 2,
+        nombre: "Julio Cesar",
+        especialidad: " especilidad en matematica"
+        },
+    horario: "10:00 - 11:00",
+    seccion: "B"
+},
+{
+    nombre: "Historia Universal",
+    descripcion: "Area de Historia Universal",
+    profesor: {
+        id: 3,
+        nombre: "Jullio zetello",
+        especialidad: "especilidad en Historia Universal"
+        },
+    horario: "11:00 - 13:00",
+    seccion: "A"
+},
+{
+    nombre: "Literatura",
+    descripcion: "Area de Letras",
+    profesor: {
+        id: 4,
+        nombre: "Jose Maria",
+        especialidad: "especilidad en letras"
+        },
+    horario: "13:00 - 14:00",
+    seccion: "A"
+},
+{
+    nombre: "Razonamiento Matematico",
+    descripcion: "Area de Matematicas",
+    profesor: {
+        id: 5,
+        nombre: "Juan Manuel",
+        especialidad: " especilidad en matematica"
+        },
+    horario: "14:00 - 15:00",
+    seccion: "A"
+}
+]
+)
+
+use('MatDigital')
+db.createCollection("clase",{
+    validator:{
+        $jsonSchema:
+            {
+                bsonType: "object",
+                description: "Information about the Clase",
+                required: ["horario","curso","nro_alumnos","profesor"],
+                properties:{
+                    horario:{
+                        bsonType:"string",
+                        description:"La horario  es string y es obligatorio"
+                    },
+                    curso:{
+                        bsonType:"string",
+                        description:"El curso es un string y es obligatorio"
+                    },
+                    nro_alumnos:{
+                        bsonType:"int",
+                        description:"El nro_alumnos debe ser un int y es obligatorio"
+                    },
+                    profesor:{
+                        description:"El profesor es string y es obligatorio",
+                        required:["id","nombre","especialidad"],
+                        properties:{
+                            id:{
+                                bsonType:"int",
+                                description:"El id debe ser un entero y es obligatorio"
+                            },
+                            nombre:{
+                                bsonType:"string",
+                                description:"El nombre debe ser string y es obligatorio"
+                            },
+                             especialidad:{
+                                bsonType:"string",
+                                description:"especialidad debe ser un string y es obligatorio"
+                            }
+                        }
+                    }
+    }
+    }}})
+
+
+
+use('MatDigital')
+db.clase.insertMany(
+[{
+      horario: "8:00 - 10:00",
+      curso: "Aritmetica",
+      nro_alumnos: 20,
+    profesor:[ 1,"Luis Miguel", " especilidad en matematica"]
+},
+{
+      horario: "10:00 - 11:00",
+      curso: "Geometria",
+      nro_alumnos: 25,
+    profesor:[ 2,"Julio Cesar", " especilidad en matematica"]
+},
+{
+      horario:  "11:00 - 13:00",
+      curso: "Historia Universal",
+      nro_alumnos: 30,
+    profesor:[ 3,"Jullio zetello","especilidad en Historia Universal"]
+},
+{
+      horario:  "13:00 - 14:00",
+      curso: "Literatura",
+      nro_alumnos: 30,
+    profesor:[ 4,"Jose Maria","especilidad en letras"]
+},
+{
+      horario:  "14:00 - 15:00",
+      curso: "Razonamiento Matematico",
+      nro_alumnos: 30,
+      profesor:[ 5,"Juan Manuel","especilidad en  matematica"]
+}])
+
+
+
+use('MatDigital')
+db.alumno.find()
+
+
+//ENCONTRAR UN CURSO POR SU COSTO o MOSTRAR LOS CURSOS QUE TIENEN EL MISMO COSTO
+use('MatDigital')
+db.matricula.find(
+    {"montopagar": 360.00}
+)
+
+//ORDENAR DESCEMDEMTEMENTE O ASCENDENTEMENTE POR COSTO DEL CURSO
+use('MatDigital')
+db.matricula.find().sort({montopagar:-1})
+db.matricula.find().sort({montopagar:1})
+
+//CARGAR O ACTUALIZAR UN DATO DE UNA COLLECCION
+use('MatDigital')
+db.matricula.update(
+{montopagar:448.99},
+{
+    $set:{
+        montopagar:450.00
+    }
+}
+)
+use('MatDigital')
+db.matricula.find()
+use('MatDigital')
+db.matematica.find()
